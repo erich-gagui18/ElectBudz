@@ -18,9 +18,9 @@ public class ElectBudz {
     
     public static void main(String[] args) {
         // Initialize candidate list
-        voteCount.put("Candidate A", 0);
-        voteCount.put("Candidate B", 0);
-        voteCount.put("Candidate C", 0);
+        voteCount.put("Candidate 1", 0);
+        voteCount.put("Candidate 2", 0);
+        voteCount.put("Candidate 3", 0);
 
         showVoterCountInputScreen();
     }
