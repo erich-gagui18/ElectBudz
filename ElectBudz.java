@@ -1,28 +1,116 @@
-/**
-TEAM JAVA RICE
- */
-
 package com.mycompany.electbudz;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 public class ElectBudz {
+    private static final String ADMIN_PASSWORD = "Admin123"; // Admin password
     private static LinkedHashMap<String, Integer> voteCount = new LinkedHashMap<>();
     private static int totalVoters = 0;
     private static int currentVoter = 0;
-    
-    public static void main(String[] args) {
-        // Initialize candidate list
-        voteCount.put("Candidate 1", 0);
-        voteCount.put("Candidate 2", 0);
-        voteCount.put("Candidate 3", 0);
 
-        showVoterCountInputScreen();
+    public static void main(String[] args) {
+        showAdminVoterSelectionScreen();
+    }
+
+    private static void showAdminVoterSelectionScreen() {
+        JFrame selectionFrame = new JFrame("ElectBudz - Admin/Voter");
+        selectionFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        selectionFrame.setSize(400, 200);
+        selectionFrame.setLayout(new GridLayout(3, 1, 10, 10));
+
+        JLabel promptLabel = new JLabel("Welcome to ElectBudz! Select your role:", SwingConstants.CENTER);
+        selectionFrame.add(promptLabel);
+
+        JButton adminButton = new JButton("Admin");
+        adminButton.addActionListener(e -> {
+            selectionFrame.dispose();
+            promptAdminPassword();
+        });
+
+        JButton voterButton = new JButton("Voter");
+        voterButton.addActionListener(e -> {
+            if (voteCount.isEmpty()) {
+                JOptionPane.showMessageDialog(selectionFrame, "No candidates available. Please ask the admin to add candidates.");
+            } else {
+                selectionFrame.dispose();
+                showVoterCountInputScreen();
+            }
+        });
+
+        selectionFrame.add(adminButton);
+        selectionFrame.add(voterButton);
+
+        selectionFrame.setLocationRelativeTo(null);
+        selectionFrame.setVisible(true);
+    }
+
+    private static void promptAdminPassword() {
+        JPasswordField passwordField = new JPasswordField();
+        int option = JOptionPane.showConfirmDialog(
+                null,
+                passwordField,
+                "Enter Admin Password",
+                JOptionPane.OK_CANCEL_OPTION,
+                JOptionPane.PLAIN_MESSAGE
+        );
+
+        if (option == JOptionPane.OK_OPTION) {
+            String password = new String(passwordField.getPassword());
+            if (password.equals(ADMIN_PASSWORD)) {
+                showAdminPage();
+            } else {
+                JOptionPane.showMessageDialog(null, "Incorrect password. Returning to selection screen.");
+                showAdminVoterSelectionScreen();
+            }
+        } else {
+            showAdminVoterSelectionScreen();
+        }
+    }
+
+    private static void showAdminPage() {
+        JFrame adminFrame = new JFrame("ElectBudz - Admin Panel");
+        adminFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        adminFrame.setSize(400, 300);
+        adminFrame.setLayout(new GridLayout(4, 1, 10, 10));
+
+        JLabel promptLabel = new JLabel("Admin Panel: Manage Candidates", SwingConstants.CENTER);
+        adminFrame.add(promptLabel);
+
+        JTextField candidateField = new JTextField();
+        candidateField.setHorizontalAlignment(SwingConstants.CENTER);
+        adminFrame.add(candidateField);
+
+        JButton addCandidateButton = new JButton("Add Candidate");
+        addCandidateButton.addActionListener(e -> {
+            String candidateName = candidateField.getText().trim();
+            if (candidateName.isEmpty()) {
+                JOptionPane.showMessageDialog(adminFrame, "Candidate name cannot be empty.");
+            } else if (voteCount.containsKey(candidateName)) {
+                JOptionPane.showMessageDialog(adminFrame, "Candidate already exists.");
+            } else {
+                voteCount.put(candidateName, 0);
+                JOptionPane.showMessageDialog(adminFrame, "Candidate added successfully.");
+                candidateField.setText("");
+            }
+        });
+
+        JButton doneButton = new JButton("Done");
+        doneButton.addActionListener(e -> {
+            if (voteCount.isEmpty()) {
+                JOptionPane.showMessageDialog(adminFrame, "Please add at least one candidate before proceeding.");
+            } else {
+                adminFrame.dispose();
+                showAdminVoterSelectionScreen();
+            }
+        });
+
+        adminFrame.add(addCandidateButton);
+        adminFrame.add(doneButton);
+
+        adminFrame.setLocationRelativeTo(null);
+        adminFrame.setVisible(true);
     }
 
     private static void showVoterCountInputScreen() {
@@ -89,40 +177,37 @@ public class ElectBudz {
         frame.dispose();
         showVotingScreen();
     }
-private static void showResultsScreen() {
-    JFrame resultsFrame = new JFrame("ElectBudz - Results");
-    resultsFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    resultsFrame.setSize(500, 400);
-    resultsFrame.setLayout(new GridLayout(voteCount.size() + 2, 1, 10, 10));
 
-    JLabel resultLabel = new JLabel("Election Results (Highest to Lowest):", SwingConstants.CENTER);
-    resultsFrame.add(resultLabel);
+    private static void showResultsScreen() {
+        JFrame resultsFrame = new JFrame("ElectBudz - Results");
+        resultsFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        resultsFrame.setSize(500, 400);
+        resultsFrame.setLayout(new GridLayout(voteCount.size() + 2, 1, 10, 10));
 
-    // Calculate the total number of votes
-    int totalVotes = voteCount.values().stream().mapToInt(Integer::intValue).sum();
+        JLabel resultLabel = new JLabel("Election Results (Highest to Lowest):", SwingConstants.CENTER);
+        resultsFrame.add(resultLabel);
 
-    // Sort the candidates by votes in descending order
-    voteCount.entrySet().stream()
-        .sorted((entry1, entry2) -> entry2.getValue().compareTo(entry1.getValue())) // Descending order
-        .forEach(entry -> {
-            String candidate = entry.getKey();
-            int votes = entry.getValue();
-            String percentage = totalVotes > 0 ? String.format("%.2f%%", (votes * 100.0) / totalVotes) : "0.00%";
+        int totalVotes = voteCount.values().stream().mapToInt(Integer::intValue).sum();
 
-            JProgressBar progressBar = new JProgressBar(0, totalVotes);
-            progressBar.setValue(votes);
-            progressBar.setString(candidate + ": " + votes + " votes (" + percentage + ")");
-            progressBar.setStringPainted(true);
-            resultsFrame.add(progressBar);
-        });
+        voteCount.entrySet().stream()
+            .sorted((entry1, entry2) -> entry2.getValue().compareTo(entry1.getValue()))
+            .forEach(entry -> {
+                String candidate = entry.getKey();
+                int votes = entry.getValue();
+                String percentage = totalVotes > 0 ? String.format("%.2f%%", (votes * 100.0) / totalVotes) : "0.00%";
 
-    JButton closeButton = new JButton("Close");
-    closeButton.addActionListener(e -> resultsFrame.dispose());
-    resultsFrame.add(closeButton);
+                JProgressBar progressBar = new JProgressBar(0, totalVotes);
+                progressBar.setValue(votes);
+                progressBar.setString(candidate + ": " + votes + " votes (" + percentage + ")");
+                progressBar.setStringPainted(true);
+                resultsFrame.add(progressBar);
+            });
 
-    resultsFrame.setLocationRelativeTo(null);
-    resultsFrame.setVisible(true);
-    
+        JButton closeButton = new JButton("Close");
+        closeButton.addActionListener(e -> resultsFrame.dispose());
+        resultsFrame.add(closeButton);
+
+        resultsFrame.setLocationRelativeTo(null);
+        resultsFrame.setVisible(true);
     }
-
 }
