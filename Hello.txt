@@ -1,1 +1,10 @@
-Meow
+ElectBudz suggestions:
+Choosing candidate
+- *check box or radio button*
+- Use Check Box
+
+- After seeing the result add button to go to showAdminVoterSelectionScreen
+- Add Default Candidates
+   - Put N/A Candidate and show it on the results
+
+- Display who are the voters who voted on the candidates

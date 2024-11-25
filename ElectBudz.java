@@ -80,7 +80,7 @@ public class ElectBudz {
     }
 
     private static void showAdminOptionSelectionScreen() {
-        JFrame adminOptionFrame = new JFrame("ElectBudz - Admin Options");
+        JFrame adminOptionFrame = new JFrame("ElectBudz - Admin");
         adminOptionFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         adminOptionFrame.setSize(400, 400);
         adminOptionFrame.setLayout(new GridLayout(4, 1, 10, 10));
@@ -327,7 +327,7 @@ private static void showAdminCandidateScreen() {
     }
 private static void showVotingScreen() {
     if (currentVoter < totalVoters) {
-        JFrame votingFrame = new JFrame("ElectBudz - Voter " + (currentVoter + 1));
+        JFrame votingFrame = new JFrame("ElectBudz - Voting " + (currentVoter + 1));
         votingFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         votingFrame.setSize(500, 600);
         votingFrame.setLayout(new GridLayout(0, 1, 10, 10));
@@ -354,7 +354,7 @@ private static void showVotingScreen() {
         });
 
         // Single Submit Button for all votes
-        JButton submitButton = new JButton("Submit All Votes");
+        JButton submitButton = new JButton("Submit Votes");
         submitButton.addActionListener(e -> {
             LinkedHashMap<String, String> votes = new LinkedHashMap<>();
             boolean allPositionsVoted = true;
