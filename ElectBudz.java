@@ -25,12 +25,12 @@ public class ElectBudz {
     }
 
     private static void showAdminVoterSelectionScreen() {
-        JFrame selectionFrame = new JFrame("ElectBudz - Admin/Voter");
+        JFrame selectionFrame = new JFrame("ElectBudz - Main Menu");
         selectionFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         selectionFrame.setSize(400, 200);
         selectionFrame.setLayout(new GridLayout(3, 1, 10, 10));
 
-        JLabel promptLabel = new JLabel("Welcome to ElectBudz! Select your role:", SwingConstants.CENTER);
+        JLabel promptLabel = new JLabel("Welcome to ElectBudz!", SwingConstants.CENTER);
         selectionFrame.add(promptLabel);
 
         JButton adminButton = new JButton("Admin");
@@ -39,7 +39,7 @@ public class ElectBudz {
             promptAdminPassword();
         });
 
-        JButton voterButton = new JButton("Voter");
+        JButton voterButton = new JButton("Vote now!");
         voterButton.addActionListener(e -> {
             if (positionVoteCount.isEmpty() || totalVoters == 0) {
                 JOptionPane.showMessageDialog(selectionFrame,
@@ -54,8 +54,8 @@ public class ElectBudz {
             }
         });
 
-        selectionFrame.add(adminButton);
         selectionFrame.add(voterButton);
+        selectionFrame.add(adminButton);
 
         selectionFrame.setLocationRelativeTo(null);
         selectionFrame.setVisible(true);
