@@ -238,7 +238,7 @@ public class ElectBudz {
                         JOptionPane.ERROR_MESSAGE);
             } else {
                 JOptionPane.showMessageDialog(adminOptionFrame,
-                        "Election has started. Voters can now proceed to vote!",
+                        "Election is starting... Voters can now proceed to vote!",
                         "Election Started",
                         JOptionPane.INFORMATION_MESSAGE);
                 adminOptionFrame.dispose(); // Close the current frame
@@ -307,64 +307,80 @@ public class ElectBudz {
         Runnable updateDisplayPanel = new Runnable() {
             @Override
             public void run() {
-                displayPanel.removeAll();  // Clear the existing list
+                displayPanel.removeAll(); // Clear the existing list
+
+                // Iterate over position and candidate map
                 positionVoteCount.forEach((position, candidates) -> {
+                    // Add a label for the position
                     JLabel positionLabel = new JLabel(position);
                     positionLabel.setFont(new Font("Arial", Font.BOLD, 16));
-                    positionLabel.setForeground(new Color(70, 130, 180));  // SteelBlue for the position label
+                    positionLabel.setForeground(new Color(70, 130, 180)); // SteelBlue color
                     displayPanel.add(positionLabel);
 
-                    candidates.forEach((candidate, votes) -> {
-                        JPanel candidatePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-                        candidatePanel.setBackground(new Color(245, 245, 245));  // Light gray background
+                    // Sort candidates alphabetically
+                    candidates.keySet().stream()
+                            .sorted()
+                            .forEach(candidate -> {
+                                // Create a panel for the candidate entry
+                                JPanel candidatePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+                                candidatePanel.setBackground(new Color(245, 245, 245)); // Light gray
 
-                        JLabel candidateLabel = new JLabel(candidate);
-                        candidateLabel.setFont(new Font("Arial", Font.PLAIN, 14));
-                        candidateLabel.setPreferredSize(new Dimension(200, 20));
-                        candidatePanel.add(candidateLabel);
+                                // Add candidate label
+                                JLabel candidateLabel = new JLabel(candidate);
+                                candidateLabel.setFont(new Font("Arial", Font.PLAIN, 14));
+                                candidateLabel.setPreferredSize(new Dimension(200, 20));
+                                candidatePanel.add(candidateLabel);
 
-                        // Edit Button
-                        JButton editButton = new JButton("Edit");
-                        editButton.setBackground(new Color(255, 215, 0));  // Gold for edit button
-                        editButton.setForeground(Color.BLACK);
-                        editButton.setFocusPainted(false);
-                        editButton.addActionListener(e -> {
-                            String newCandidateName = JOptionPane.showInputDialog(
-                                    adminCandidateFrame,
-                                    "Edit candidate name:",
-                                    candidate
-                            );
-                            if (newCandidateName != null && !newCandidateName.trim().isEmpty()) {
-                                candidates.remove(candidate);
-                                candidates.put(newCandidateName.trim(), votes);
-                                JOptionPane.showMessageDialog(adminCandidateFrame, "Candidate name updated!");
-                            }
-                        });
+                                // Edit Button
+                                JButton editButton = new JButton("Edit");
+                                editButton.setBackground(new Color(255, 215, 0)); // Gold
+                                editButton.setForeground(Color.BLACK);
+                                editButton.setFocusPainted(false);
+                                editButton.addActionListener(e -> {
+                                    String newCandidateName = JOptionPane.showInputDialog(
+                                            adminCandidateFrame,
+                                            "Edit candidate name:",
+                                            candidate
+                                    );
+                                    if (newCandidateName != null && !newCandidateName.trim().isEmpty() && !candidates.containsKey(newCandidateName)) {
+                                        candidates.remove(candidate); // Remove old candidate name
+                                        candidates.put(newCandidateName, candidates.getOrDefault(candidate, 0)); // Preserve votes if applicable
+                                        JOptionPane.showMessageDialog(adminCandidateFrame, "Candidate name updated!");
+                                        SwingUtilities.invokeLater(this); // Refresh the display panel
+                                    } else if (candidates.containsKey(newCandidateName)) {
+                                        JOptionPane.showMessageDialog(adminCandidateFrame, "Candidate name already exists!");
+                                    }
+                                });
 
-                        // Delete Button
-                        JButton deleteButton = new JButton("Delete");
-                        deleteButton.setBackground(new Color(255, 69, 0));  // Red for delete button
-                        deleteButton.setForeground(Color.WHITE);
-                        deleteButton.setFocusPainted(false);
-                        deleteButton.addActionListener(e -> {
-                            int confirm = JOptionPane.showConfirmDialog(
-                                    adminCandidateFrame,
-                                    "Are you sure you want to delete " + candidate + "?",
-                                    "Confirm Delete",
-                                    JOptionPane.YES_NO_OPTION
-                            );
-                            if (confirm == JOptionPane.YES_OPTION) {
-                                candidates.remove(candidate);
-                                JOptionPane.showMessageDialog(adminCandidateFrame, "Candidate deleted successfully!");
-                            }
-                        });
+                                // Delete Button
+                                JButton deleteButton = new JButton("Delete");
+                                deleteButton.setBackground(new Color(255, 69, 0)); // Red
+                                deleteButton.setForeground(Color.WHITE);
+                                deleteButton.setFocusPainted(false);
+                                deleteButton.addActionListener(e -> {
+                                    int confirm = JOptionPane.showConfirmDialog(
+                                            adminCandidateFrame,
+                                            "Are you sure you want to delete " + candidate + "?",
+                                            "Confirm Delete",
+                                            JOptionPane.YES_NO_OPTION
+                                    );
+                                    if (confirm == JOptionPane.YES_OPTION) {
+                                        candidates.remove(candidate); // Remove the candidate
+                                        JOptionPane.showMessageDialog(adminCandidateFrame, "Candidate deleted successfully!");
+                                        SwingUtilities.invokeLater(this); // Refresh the display panel
+                                    }
+                                });
 
-                        candidatePanel.add(editButton);
-                        candidatePanel.add(deleteButton);
-                        displayPanel.add(candidatePanel);
-                    });
+                                // Add buttons to the candidate panel
+                                candidatePanel.add(editButton);
+                                candidatePanel.add(deleteButton);
+
+                                // Add the candidate panel to the display panel
+                                displayPanel.add(candidatePanel);
+                            });
                 });
 
+                // Refresh the UI
                 displayPanel.revalidate();
                 displayPanel.repaint();
             }
