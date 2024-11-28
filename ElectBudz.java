@@ -11,7 +11,7 @@ import java.util.LinkedHashMap;
 public class ElectBudz {
 
     private static final String ADMIN_PASSWORD = "Admin123";
-    private static LinkedHashMap<String, LinkedHashMap<String, Integer>> positionVoteCount = new LinkedHashMap<>();
+    private static final LinkedHashMap<String, LinkedHashMap<String, Integer>> positionVoteCount = new LinkedHashMap<>();
     private static int currentVoter = 0;
     private static int totalVoters = 0;
 
@@ -176,9 +176,20 @@ public class ElectBudz {
 
     private static void checkPassword(JDialog passwordDialog, JPasswordField passwordField) {
         String password = new String(passwordField.getPassword());
+
         if (password.equals(ADMIN_PASSWORD)) {
             passwordDialog.dispose();
-            showAdminOptionSelectionScreen(); // Always show the option selection screen after successful login
+
+            // Check if any votes have been cast
+            boolean hasVotes = positionVoteCount.values().stream()
+                    .flatMap(candidates -> candidates.values().stream())
+                    .anyMatch(voteCount -> voteCount > 0);
+
+            if (hasVotes) {
+                showAdminOptionsWithResults(); // Show admin options with results
+            } else {
+                showAdminOptionSelectionScreen(); // Show option selection screen for a new election
+            }
         } else {
             JOptionPane.showMessageDialog(passwordDialog, "Incorrect password. Please try again.", "Error", JOptionPane.ERROR_MESSAGE);
             passwordField.setText(""); // Clear the password field for retry
@@ -787,7 +798,9 @@ public class ElectBudz {
 
 // Method to reset election data
     private static void resetElectionData() {
+        // Clear vote counts but retain the default candidates by reinitializing them
         positionVoteCount.clear();
+        initializeDefaultCandidates(); // Reinitialize default candidates with zero vote count
         currentVoter = 0;
         totalVoters = 0;
     }

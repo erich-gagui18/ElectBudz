@@ -8,10 +8,4 @@ Frontend:
 - Modify Check Boxes
 
 Backend:
-- Add Default Candidate list (Add any random names):
-            Governor - 3
-            Vice Governor - 3
-            Member, Sangguniang Panlalawigan (Board Members) - 3
-            Mayor - 2
-            Vice Mayor - 2
-            Member, Sangguniang Panlungsod/Bayan (Councilor) - 15
+ - BASIC HAHAHAHAHAHHAH
