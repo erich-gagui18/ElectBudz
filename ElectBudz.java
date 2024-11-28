@@ -13,7 +13,7 @@ public class ElectBudz {
     private static final String ADMIN_PASSWORD = "Admin123";
     private static final LinkedHashMap<String, LinkedHashMap<String, Integer>> positionVoteCount = new LinkedHashMap<>();
     private static final String[] positions = {
-        "Governor", "Vice Governor", "Member, Sangguniang Panlalawigan (Board Members)", "Mayor", "Vice Mayor", "Member, Sangguniang Panlungsod/Bayan (Councilor)"
+        "Governor", "Vice Governor", "Provincial Board Member", "Mayor", "Vice Mayor", "City/Town Councilor"
     };
     private static int totalVoters = 0;
     private static int currentVoter = 0;
@@ -511,9 +511,6 @@ public class ElectBudz {
 
                 LinkedHashMap<String, JCheckBox> checkBoxes = new LinkedHashMap<>();
 
-                // If the position is Mayor or Vice Mayor, use a ButtonGroup
-                ButtonGroup group = (position.equals("Mayor") || position.equals("Vice Mayor") || position.equals("Governor") || position.equals("Vice Governor") || position.equals("Member, Sangguniang Panlalawigan (Board Members)")) ? new ButtonGroup() : null;
-
                 // Sort candidates by name in alphabetical order
                 candidates.keySet().stream()
                         .sorted() // Sort candidate names alphabetically
@@ -521,7 +518,7 @@ public class ElectBudz {
                             JCheckBox checkBox = new JCheckBox(candidate);
 
                             // logic for allowing unchecking
-                            if (position.equals("Mayor") || position.equals("Vice Mayor") || position.equals("Governor") || position.equals("Vice Governor") || position.equals("Member, Sangguniang Panlalawigan (Board Members)")) {
+                            if (position.equals("Mayor") || position.equals("Vice Mayor") || position.equals("Governor") || position.equals("Vice Governor") || position.equals("Provincial Board Member")) {
                                 checkBox.addItemListener(e -> {
                                     if (e.getStateChange() == ItemEvent.SELECTED) {
                                         // Unselect all other checkboxes in this group
@@ -569,13 +566,13 @@ public class ElectBudz {
                             1;
                         case "Vice Governor" ->
                             1;
-                        case "Member, Sangguniang Panlalawigan (Board Members)" ->
+                        case "Provincial Board Member" ->
                             1;
                         case "Mayor" ->
                             1;
                         case "Vice Mayor" ->
                             1;
-                        case "Member, Sangguniang Panlungsod/Bayan (Councilor)" ->
+                        case "City/Town Councilor" ->
                             10;
                         default ->
                             Integer.MAX_VALUE; // Default: No limit
