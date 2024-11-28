@@ -11,12 +11,39 @@ import java.util.LinkedHashMap;
 public class ElectBudz {
 
     private static final String ADMIN_PASSWORD = "Admin123";
-    private static final LinkedHashMap<String, LinkedHashMap<String, Integer>> positionVoteCount = new LinkedHashMap<>();
+    private static LinkedHashMap<String, LinkedHashMap<String, Integer>> positionVoteCount = new LinkedHashMap<>();
+    private static int currentVoter = 0;
+    private static int totalVoters = 0;
+
+    static {
+        initializeDefaultCandidates();
+    }
+
+// Method to initialize default candidates
+    private static void initializeDefaultCandidates() {
+        positionVoteCount.put("Governor", createCandidateList("Recto, Rosa Vilma Tuazon S.", "Leviste, Jose Antonio S."));
+        positionVoteCount.put("Vice Governor", createCandidateList("Mandanas, Hermilando I.", "Manzano, Luis Philippe S."));
+        positionVoteCount.put("Provincial Board Member", createCandidateList("Balba, Rodolfo", "Corona, Alfredo", "Macalintal, Dennis"));
+        positionVoteCount.put("Mayor", createCandidateList("Ilagan, Janet M.", "Collantes, Nelson P.", "Africa, Eric B."));
+        positionVoteCount.put("Vice Mayor", createCandidateList("Trinidad Jr., Herminigildo G.", "Lopez, Camille Angeline M.", "Ilagan, Jay M."));
+        positionVoteCount.put("City/Town Councilor", createCandidateList(
+                "Alice Green", "Bob White", "Carol Black", "David Lee",
+                "Eve Harris", "Frank Adams", "Grace Clark", "Hank Turner",
+                "Ivy Wilson", "Jack Morgan"));
+    }
+
+// Utility method to create candidate lists with vote count initialized to 0
+    private static LinkedHashMap<String, Integer> createCandidateList(String... candidates) {
+        LinkedHashMap<String, Integer> candidateMap = new LinkedHashMap<>();
+        for (String candidate : candidates) {
+            candidateMap.put(candidate, 0); // Initialize each candidate with 0 votes
+        }
+        return candidateMap;
+    }
+
     private static final String[] positions = {
         "Governor", "Vice Governor", "Provincial Board Member", "Mayor", "Vice Mayor", "City/Town Councilor"
     };
-    private static int totalVoters = 0;
-    private static int currentVoter = 0;
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(ElectBudz::showAdminVoterSelectionScreen);
@@ -151,15 +178,10 @@ public class ElectBudz {
         String password = new String(passwordField.getPassword());
         if (password.equals(ADMIN_PASSWORD)) {
             passwordDialog.dispose();
-            if (positionVoteCount.isEmpty()) {
-                showAdminOptionSelectionScreen();
-            } else {
-                showAdminOptionsWithResults();
-            }
+            showAdminOptionSelectionScreen(); // Always show the option selection screen after successful login
         } else {
-            JOptionPane.showMessageDialog(passwordDialog, "Incorrect password. Returning to selection screen.", "Error", JOptionPane.ERROR_MESSAGE);
-            passwordDialog.dispose();
-            showAdminVoterSelectionScreen();
+            JOptionPane.showMessageDialog(passwordDialog, "Incorrect password. Please try again.", "Error", JOptionPane.ERROR_MESSAGE);
+            passwordField.setText(""); // Clear the password field for retry
         }
     }
 
@@ -567,7 +589,7 @@ public class ElectBudz {
                         case "Vice Governor" ->
                             1;
                         case "Provincial Board Member" ->
-                            1;
+                            2;
                         case "Mayor" ->
                             1;
                         case "Vice Mayor" ->
