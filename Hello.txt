@@ -5,9 +5,9 @@ Frontend:
 - Scrollbar sa VotingScreen
 - Election Results (SID)
 - Fix AdminPanelWithResults
+- Check Boxes
 
 Backend:
-- Fix Check Box for Mayor & V. Mayor
 - Scrollbar sa VotingScreen
 - Add Default Candidates: 
             Governor - 3
@@ -17,5 +17,4 @@ Backend:
             Vice Mayor - 2
             Member, Sangguniang Panlungsod/Bayan (Councilor) - 15
 
-- Remove Increment of N/A
 - Make the inputted candidates' name Alphabetical in the showAdminCandidateScreen and showVotingScreen

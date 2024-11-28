@@ -497,12 +497,16 @@ public class ElectBudz {
                 candidates.forEach((candidate, votes) -> {
                     JCheckBox checkBox = new JCheckBox(candidate);
 
-                    // For Mayor and Vice Mayor, handle exclusive selection and focus navigation
-                    if (group != null) {
-                        group.add(checkBox);
+                    // Custom logic for Mayor and Vice Mayor to allow unchecking
+                    if (position.equals("Mayor") || position.equals("Vice Mayor")) {
                         checkBox.addItemListener(e -> {
                             if (e.getStateChange() == ItemEvent.SELECTED) {
-                                checkBox.requestFocus(); // Navigate to the selected checkbox
+                                // Unselect all other checkboxes in this group
+                                checkBoxes.forEach((otherCandidate, otherCheckBox) -> {
+                                    if (otherCheckBox != checkBox) {
+                                        otherCheckBox.setSelected(false);
+                                    }
+                                });
                             }
                         });
                     }
@@ -521,7 +525,7 @@ public class ElectBudz {
             submitButton.setFocusPainted(false);
             submitButton.setPreferredSize(new Dimension(150, 40));
             submitButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-            
+
             submitButton.addActionListener(e -> {
                 LinkedHashMap<String, java.util.List<String>> votes = new LinkedHashMap<>();
                 boolean validVotes = true;
@@ -554,11 +558,7 @@ public class ElectBudz {
                         validVotes = false;
                         break;
                     }
-                    if (selectedCandidates.isEmpty()) {
-                        // Increment empty votes for this position
-                        LinkedHashMap<String, Integer> candidates = positionVoteCount.get(position);
-                        candidates.put("N/A", candidates.getOrDefault("N/A", 0) + 1);
-                    } else {
+                    if (!selectedCandidates.isEmpty()) {
                         votes.put(position, selectedCandidates);
                     }
                 }
@@ -615,17 +615,17 @@ public class ElectBudz {
             positionLabel.setBorder(BorderFactory.createEmptyBorder(10, 0, 5, 0));
             resultsPanel.add(positionLabel);
 
+            // Calculate the total votes for the position
             int totalVotesForPosition = candidates.values().stream().mapToInt(Integer::intValue).sum();
+
+            // Calculate skipped votes (voters who didn't vote for this position)
+            int skippedVotes = totalVoters - totalVotesForPosition;
 
             candidates.entrySet().stream()
                     .sorted((e1, e2) -> e2.getValue().compareTo(e1.getValue())) // Sort by votes (descending)
                     .forEach(entry -> {
                         String candidate = entry.getKey();
                         int votes = entry.getValue();
-
-                        if (candidate.equals("Empty Votes")) {
-                            candidate = "Empty Votes (No selection)";
-                        }
 
                         String percentage = totalVotesForPosition > 0
                                 ? String.format("%.2f%%", (votes * 100.0) / totalVotesForPosition)
@@ -635,7 +635,7 @@ public class ElectBudz {
                         candidatePanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
                         JLabel candidateLabel = new JLabel(candidate + ": " + votes + " votes (" + percentage + ")");
-                        JProgressBar progressBar = new JProgressBar(0, totalVotesForPosition);
+                        JProgressBar progressBar = new JProgressBar(0, totalVoters); // Use totalVoters as the max value
                         progressBar.setValue(votes);
                         progressBar.setStringPainted(true);
 
@@ -644,6 +644,13 @@ public class ElectBudz {
                         resultsPanel.add(candidatePanel);
                     });
 
+            // Add skipped votes (if any)
+            if (skippedVotes > 0) {
+                JLabel skippedLabel = new JLabel("Skipped Votes (No selection): " + skippedVotes + " votes");
+                skippedLabel.setFont(new Font("Arial", Font.ITALIC, 14));
+                skippedLabel.setForeground(Color.GRAY); // Gray color for skipped votes
+                resultsPanel.add(skippedLabel);
+            }
         });
 
         // Close and Main Menu buttons
