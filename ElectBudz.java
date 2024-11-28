@@ -5,6 +5,7 @@ package com.mycompany.electbudz;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ItemEvent;
 import java.util.LinkedHashMap;
 import java.util.Enumeration;
 
@@ -351,11 +352,27 @@ public class ElectBudz {
                 votingFrame.add(positionLabel);
 
                 LinkedHashMap<String, JCheckBox> checkBoxes = new LinkedHashMap<>();
+
+                // If the position is Mayor or Vice Mayor, use a ButtonGroup
+                ButtonGroup group = (position.equals("Mayor") || position.equals("Vice Mayor")) ? new ButtonGroup() : null;
+
                 candidates.forEach((candidate, votes) -> {
                     JCheckBox checkBox = new JCheckBox(candidate);
+
+                    // For Mayor and Vice Mayor, handle exclusive selection and focus navigation
+                    if (group != null) {
+                        group.add(checkBox);
+                        checkBox.addItemListener(e -> {
+                            if (e.getStateChange() == ItemEvent.SELECTED) {
+                                checkBox.requestFocus(); // Navigate to the selected checkbox
+                            }
+                        });
+                    }
+
                     checkBoxes.put(candidate, checkBox);
                     votingFrame.add(checkBox);
                 });
+
                 positionGroups.put(position, checkBoxes);
             });
 
@@ -396,7 +413,7 @@ public class ElectBudz {
                         // Increment empty votes for this position
                         LinkedHashMap<String, Integer> candidates = positionVoteCount.get(position);
                         candidates.put("N/A", candidates.getOrDefault("N/A", 0) + 1);
-                    }else {
+                    } else {
                         votes.put(position, selectedCandidates);
                     }
                 }
