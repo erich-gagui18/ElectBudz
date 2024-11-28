@@ -1,10 +1,21 @@
-ElectBudz suggestions:
-Choosing candidate
-- *check box or radio button*
-- Use Check Box
+ElectBudz Need to Fix/Suggestions:
 
-- After seeing the result add button to go to showAdminVoterSelectionScreen
-- Add Default Candidates
-   - Put N/A Candidate and show it on the results
+Frontend:
+- Alert Messages
+- Scrollbar sa VotingScreen
+- Election Results (SID)
+- Fix AdminPanelWithResults
 
-- Display who are the voters who voted on the candidates
+Backend:
+- Fix Check Box for Mayor & V. Mayor
+- Scrollbar sa VotingScreen
+- Add Default Candidates: 
+            Governor - 3
+            Vice Governor - 3
+            Member, Sangguniang Panlalawigan (Board Members) - 3
+            Mayor - 2
+            Vice Mayor - 2
+            Member, Sangguniang Panlungsod/Bayan (Councilor) - 15
+
+- Remove Increment of N/A
+- Make the inputted candidates' name Alphabetical in the showAdminCandidateScreen and showVotingScreen
