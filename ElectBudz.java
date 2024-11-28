@@ -468,8 +468,10 @@ public class ElectBudz {
             JFrame votingFrame = new JFrame("ElectBudz - Voting " + (currentVoter + 1));
             votingFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             votingFrame.setSize(500, 700);
-            votingFrame.setLayout(new BoxLayout(votingFrame.getContentPane(), BoxLayout.Y_AXIS));
-            votingFrame.setBackground(new Color(240, 240, 240));  // Light background for better contrast
+            // Main panel to hold all components
+            JPanel mainPanel = new JPanel();
+            mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+            mainPanel.setBackground(new Color(240, 240, 240));  // Light background for better contrast
 
             // Title
             JLabel promptLabel = new JLabel("Voter " + (currentVoter + 1) + ": Select your candidates", SwingConstants.CENTER);
@@ -477,7 +479,7 @@ public class ElectBudz {
             promptLabel.setForeground(new Color(0, 102, 204));  // Blue color for the title
             promptLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
             promptLabel.setBorder(BorderFactory.createEmptyBorder(20, 0, 20, 0));  // Padding
-            votingFrame.add(promptLabel);
+            mainPanel.add(promptLabel);
 
             // Store the selected candidates for each position
             LinkedHashMap<String, LinkedHashMap<String, JCheckBox>> positionGroups = new LinkedHashMap<>();
@@ -488,7 +490,7 @@ public class ElectBudz {
                 positionLabel.setForeground(new Color(70, 130, 180));  // SteelBlue for positions
                 positionLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
                 positionLabel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
-                votingFrame.add(positionLabel);
+                mainPanel.add(positionLabel);
 
                 LinkedHashMap<String, JCheckBox> checkBoxes = new LinkedHashMap<>();
 
@@ -512,7 +514,7 @@ public class ElectBudz {
                     }
 
                     checkBoxes.put(candidate, checkBox);
-                    votingFrame.add(checkBox);
+                    mainPanel.add(checkBox);
                 });
 
                 positionGroups.put(position, checkBoxes);
@@ -558,9 +560,7 @@ public class ElectBudz {
                         validVotes = false;
                         break;
                     }
-                    if (!selectedCandidates.isEmpty()) {
-                        votes.put(position, selectedCandidates);
-                    }
+                    votes.put(position, selectedCandidates);
                 }
 
                 if (validVotes) {
@@ -585,7 +585,14 @@ public class ElectBudz {
                     }
                 }
             });
-            votingFrame.add(submitButton);
+            mainPanel.add(submitButton);
+
+            // Add a scroll pane to the frame
+            JScrollPane scrollPane = new JScrollPane(mainPanel);
+            scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+            scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+
+            votingFrame.add(scrollPane);
             votingFrame.setLocationRelativeTo(null);
             votingFrame.setVisible(true);
         } else {
