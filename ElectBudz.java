@@ -209,7 +209,7 @@ public class ElectBudz {
                         JPanel candidatePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
                         candidatePanel.setBackground(new Color(245, 245, 245));  // Light gray background
 
-                        JLabel candidateLabel = new JLabel(candidate + " - " + votes + " votes");
+                        JLabel candidateLabel = new JLabel(candidate);
                         candidateLabel.setFont(new Font("Arial", Font.PLAIN, 14));
                         candidateLabel.setPreferredSize(new Dimension(200, 20));
                         candidatePanel.add(candidateLabel);
@@ -391,7 +391,12 @@ public class ElectBudz {
                                 "You can select a maximum of " + maxVotes + " candidate(s) for " + position + ".");
                         validVotes = false;
                         break;
-                    } else {
+                    }
+                    if (selectedCandidates.isEmpty()) {
+                        // Increment empty votes for this position
+                        LinkedHashMap<String, Integer> candidates = positionVoteCount.get(position);
+                        candidates.put("N/A", candidates.getOrDefault("N/A", 0) + 1);
+                    }else {
                         votes.put(position, selectedCandidates);
                     }
                 }
