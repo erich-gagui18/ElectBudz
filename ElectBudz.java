@@ -7,13 +7,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.util.LinkedHashMap;
-import java.util.Enumeration;
 
 public class ElectBudz {
 
     private static final String ADMIN_PASSWORD = "Admin123";
-    private static LinkedHashMap<String, LinkedHashMap<String, Integer>> positionVoteCount = new LinkedHashMap<>();
-    private static String[] positions = {
+    private static final LinkedHashMap<String, LinkedHashMap<String, Integer>> positionVoteCount = new LinkedHashMap<>();
+    private static final String[] positions = {
         "Mayor", "Vice Mayor", "Member, Sangguniang Panlungsod/Bayan (Councilor)"
     };
     private static int totalVoters = 0;
@@ -443,23 +442,6 @@ public class ElectBudz {
             votingFrame.add(submitButton);
             votingFrame.setLocationRelativeTo(null);
             votingFrame.setVisible(true);
-        } else {
-            showResultsScreen();
-        }
-    }
-
-    private static void castVote(String position, String selectedCandidate, JFrame votingFrame) {
-        LinkedHashMap<String, Integer> candidates = positionVoteCount.get(position);
-        candidates.put(selectedCandidate, candidates.get(selectedCandidate) + 1);
-
-        currentVoter++;
-
-        JOptionPane.showMessageDialog(votingFrame, "Your vote has been cast for " + selectedCandidate + " under " + position);
-
-        votingFrame.dispose();
-
-        if (currentVoter < totalVoters) {
-            showVotingScreen();
         } else {
             showResultsScreen();
         }
