@@ -13,7 +13,7 @@ public class ElectBudz {
     private static final String ADMIN_PASSWORD = "Admin123";
     private static final LinkedHashMap<String, LinkedHashMap<String, Integer>> positionVoteCount = new LinkedHashMap<>();
     private static final String[] positions = {
-        "Mayor", "Vice Mayor", "Member, Sangguniang Panlungsod/Bayan (Councilor)"
+        "Governor", "Vice Governor", "Member, Sangguniang Panlalawigan (Board Members)", "Mayor", "Vice Mayor", "Member, Sangguniang Panlungsod/Bayan (Councilor)"
     };
     private static int totalVoters = 0;
     private static int currentVoter = 0;
@@ -380,7 +380,7 @@ public class ElectBudz {
                             });
                 });
 
-                // Refresh the UI
+                // Refreshes the UI
                 displayPanel.revalidate();
                 displayPanel.repaint();
             }
@@ -512,7 +512,7 @@ public class ElectBudz {
                 LinkedHashMap<String, JCheckBox> checkBoxes = new LinkedHashMap<>();
 
                 // If the position is Mayor or Vice Mayor, use a ButtonGroup
-                ButtonGroup group = (position.equals("Mayor") || position.equals("Vice Mayor")) ? new ButtonGroup() : null;
+                ButtonGroup group = (position.equals("Mayor") || position.equals("Vice Mayor") || position.equals("Governor") || position.equals("Vice Governor") || position.equals("Member, Sangguniang Panlalawigan (Board Members)")) ? new ButtonGroup() : null;
 
                 // Sort candidates by name in alphabetical order
                 candidates.keySet().stream()
@@ -520,8 +520,8 @@ public class ElectBudz {
                         .forEach(candidate -> {
                             JCheckBox checkBox = new JCheckBox(candidate);
 
-                            // Custom logic for Mayor and Vice Mayor to allow unchecking
-                            if (position.equals("Mayor") || position.equals("Vice Mayor")) {
+                            // logic for allowing unchecking
+                            if (position.equals("Mayor") || position.equals("Vice Mayor") || position.equals("Governor") || position.equals("Vice Governor") || position.equals("Member, Sangguniang Panlalawigan (Board Members)")) {
                                 checkBox.addItemListener(e -> {
                                     if (e.getStateChange() == ItemEvent.SELECTED) {
                                         // Unselect all other checkboxes in this group
@@ -565,6 +565,12 @@ public class ElectBudz {
                     });
 
                     int maxVotes = switch (position) {
+                        case "Governor" ->
+                            1;
+                        case "Vice Governor" ->
+                            1;
+                        case "Member, Sangguniang Panlalawigan (Board Members)" ->
+                            1;
                         case "Mayor" ->
                             1;
                         case "Vice Mayor" ->
