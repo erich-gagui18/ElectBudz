@@ -391,12 +391,6 @@ public class ElectBudz {
                                 "You can select a maximum of " + maxVotes + " candidate(s) for " + position + ".");
                         validVotes = false;
                         break;
-                    }
-
-                    if (selectedCandidates.isEmpty()) {
-                        // Increment empty votes for this position
-                        LinkedHashMap<String, Integer> candidates = positionVoteCount.get(position);
-                        candidates.put("Empty Votes", candidates.getOrDefault("Empty Votes", 0) + 1);
                     } else {
                         votes.put(position, selectedCandidates);
                     }
