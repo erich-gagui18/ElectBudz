@@ -485,6 +485,7 @@ public class ElectBudz {
             LinkedHashMap<String, LinkedHashMap<String, JCheckBox>> positionGroups = new LinkedHashMap<>();
 
             positionVoteCount.forEach((position, candidates) -> {
+                // Add a label for the position
                 JLabel positionLabel = new JLabel(position, SwingConstants.CENTER);
                 positionLabel.setFont(new Font("Arial", Font.BOLD, 14));
                 positionLabel.setForeground(new Color(70, 130, 180));  // SteelBlue for positions
@@ -496,26 +497,30 @@ public class ElectBudz {
 
                 // If the position is Mayor or Vice Mayor, use a ButtonGroup
                 ButtonGroup group = (position.equals("Mayor") || position.equals("Vice Mayor")) ? new ButtonGroup() : null;
-                candidates.forEach((candidate, votes) -> {
-                    JCheckBox checkBox = new JCheckBox(candidate);
 
-                    // Custom logic for Mayor and Vice Mayor to allow unchecking
-                    if (position.equals("Mayor") || position.equals("Vice Mayor")) {
-                        checkBox.addItemListener(e -> {
-                            if (e.getStateChange() == ItemEvent.SELECTED) {
-                                // Unselect all other checkboxes in this group
-                                checkBoxes.forEach((otherCandidate, otherCheckBox) -> {
-                                    if (otherCheckBox != checkBox) {
-                                        otherCheckBox.setSelected(false);
+                // Sort candidates by name in alphabetical order
+                candidates.keySet().stream()
+                        .sorted() // Sort candidate names alphabetically
+                        .forEach(candidate -> {
+                            JCheckBox checkBox = new JCheckBox(candidate);
+
+                            // Custom logic for Mayor and Vice Mayor to allow unchecking
+                            if (position.equals("Mayor") || position.equals("Vice Mayor")) {
+                                checkBox.addItemListener(e -> {
+                                    if (e.getStateChange() == ItemEvent.SELECTED) {
+                                        // Unselect all other checkboxes in this group
+                                        checkBoxes.forEach((otherCandidate, otherCheckBox) -> {
+                                            if (otherCheckBox != checkBox) {
+                                                otherCheckBox.setSelected(false);
+                                            }
+                                        });
                                     }
                                 });
                             }
-                        });
-                    }
 
-                    checkBoxes.put(candidate, checkBox);
-                    mainPanel.add(checkBox);
-                });
+                            checkBoxes.put(candidate, checkBox);
+                            mainPanel.add(checkBox);
+                        });
 
                 positionGroups.put(position, checkBoxes);
             });
@@ -606,7 +611,7 @@ public class ElectBudz {
         resultsFrame.setSize(700, 600);
         resultsFrame.setLayout(new BorderLayout(10, 10));
 
-        JLabel titleLabel = new JLabel("Election Results (Sorted by Votes)", SwingConstants.CENTER);
+        JLabel titleLabel = new JLabel("Election Results (Sorted by total of " + totalVoters + " voters)", SwingConstants.CENTER);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 18));
         resultsFrame.add(titleLabel, BorderLayout.NORTH);
 
@@ -635,7 +640,7 @@ public class ElectBudz {
                         int votes = entry.getValue();
 
                         String percentage = totalVotesForPosition > 0
-                                ? String.format("%.2f%%", (votes * 100.0) / totalVotesForPosition)
+                                ? String.format("%.2f%%", (votes * 100.0) / totalVoters)
                                 : "0.00%";
 
                         JPanel candidatePanel = new JPanel(new BorderLayout());
