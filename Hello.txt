@@ -1,20 +1,17 @@
 ElectBudz Need to Fix/Suggestions:
 
 Frontend:
-- Alert Messages
-- Scrollbar sa VotingScreen
-- Election Results (SID)
+- Modify Alert Messages
+- Modify Scrollbar
+- Modify Election Results (SID)
 - Fix AdminPanelWithResults
-- Check Boxes
+- Modify Check Boxes
 
 Backend:
-- Scrollbar sa VotingScreen
-- Add Default Candidates: 
+- Add Default Candidate list (Add any random names):
             Governor - 3
             Vice Governor - 3
             Member, Sangguniang Panlalawigan (Board Members) - 3
             Mayor - 2
             Vice Mayor - 2
             Member, Sangguniang Panlungsod/Bayan (Councilor) - 15
-
-- Make the inputted candidates' name Alphabetical in the showAdminCandidateScreen and showVotingScreen
