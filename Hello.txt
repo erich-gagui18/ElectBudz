@@ -8,8 +8,8 @@ Frontend:
  - Modify Check Boxes
 
 Backend:
- - LOGO
+ - Goods
 
 Notes:
  - Add Comments (For UI Design)
- - LOGO
+ - Redesign Logo
