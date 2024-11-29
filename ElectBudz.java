@@ -19,11 +19,11 @@ public class ElectBudz {
         initializeDefaultCandidates();
     }
 
-// Method to initialize default candidates
+    // Method to initialize default candidates
     private static void initializeDefaultCandidates() {
         positionVoteCount.put("Governor", createCandidateList("Recto, Rosa Vilma Tuazon S.", "Leviste, Jose Antonio S."));
         positionVoteCount.put("Vice Governor", createCandidateList("Mandanas, Hermilando I.", "Manzano, Luis Philippe S."));
-        positionVoteCount.put("Provincial Board Member", createCandidateList("Balba, Rodolfo", "Corona, Alfredo", "Macalintal, Dennis"));
+        positionVoteCount.put("Provincial Board Member", createCandidateList("Balba, Rodolfo M.", "Corona, Alfredo C.", "Macalintal, Dennis C."));
         positionVoteCount.put("Mayor", createCandidateList("Ilagan, Janet M.", "Collantes, Nelson P.", "Africa, Eric B."));
         positionVoteCount.put("Vice Mayor", createCandidateList("Trinidad Jr., Herminigildo G.", "Lopez, Camille Angeline M.", "Ilagan, Jay M."));
         positionVoteCount.put("City/Town Councilor", createCandidateList(
@@ -32,7 +32,7 @@ public class ElectBudz {
                 "Ivy Wilson", "Jack Morgan"));
     }
 
-// Utility method to create candidate lists with vote count initialized to 0
+    // Utility method to create candidate lists with vote count initialized to 0
     private static LinkedHashMap<String, Integer> createCandidateList(String... candidates) {
         LinkedHashMap<String, Integer> candidateMap = new LinkedHashMap<>();
         for (String candidate : candidates) {
@@ -40,13 +40,13 @@ public class ElectBudz {
         }
         return candidateMap;
     }
-
+    // Array implementation for each Positions
     private static final String[] positions = {
         "Governor", "Vice Governor", "Provincial Board Member", "Mayor", "Vice Mayor", "City/Town Councilor"
     };
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(ElectBudz::showAdminVoterSelectionScreen);
+        SwingUtilities.invokeLater(ElectBudz::showAdminVoterSelectionScreen); // method for the Event Dispatch Thread (EDT)
     }
 
     private static void showAdminVoterSelectionScreen() {
@@ -73,8 +73,10 @@ public class ElectBudz {
         voterButton.setFont(new Font("Segoe UI", Font.BOLD, 18)); // Larger font
         voterButton.setFocusPainted(false);
         voterButton.setBorder(BorderFactory.createEmptyBorder(15, 30, 15, 30)); // Padding for size
+        
+        // if-else for voting
         voterButton.addActionListener(e -> {
-            if (positionVoteCount.isEmpty() || totalVoters == 0) {
+            if (positionVoteCount.isEmpty() || totalVoters == 0) { // Validates if the election setup is complete
                 JOptionPane.showMessageDialog(selectionFrame,
                         "Election setup incomplete. Please ask the admin to add candidates and set the voter count.");
             } else if (currentVoter >= totalVoters) {
@@ -99,6 +101,8 @@ public class ElectBudz {
         adminButton.setFont(new Font("Segoe UI", Font.BOLD, 14)); // Smaller font
         adminButton.setFocusPainted(false);
         adminButton.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20)); // Padding for size
+        
+        // Triggers promptAdminPassword
         adminButton.addActionListener(e -> {
             selectionFrame.dispose();
             promptAdminPassword();
@@ -174,6 +178,7 @@ public class ElectBudz {
         passwordDialog.setVisible(true);
     }
 
+    // checkPassword method
     private static void checkPassword(JDialog passwordDialog, JPasswordField passwordField) {
         String password = new String(passwordField.getPassword());
 
@@ -197,7 +202,6 @@ public class ElectBudz {
     }
 
     private static void showAdminOptionSelectionScreen() {
-        // Create the main frame for the Admin Panel
         JFrame adminOptionFrame = new JFrame("ElectBudz - Admin Panel");
         adminOptionFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         adminOptionFrame.setSize(450, 500);  // Adjusted size for larger buttons
@@ -225,11 +229,13 @@ public class ElectBudz {
         manageCandidatesButton.setFont(new Font("Segoe UI", Font.BOLD, 16));  // Bold and readable text
         manageCandidatesButton.setPreferredSize(new Dimension(300, 80));  // Adjust size for visibility
         manageCandidatesButton.setFocusPainted(false);  // Remove the white focus box
+        
+        // Action to navigate to the Manage Candidates screen
         manageCandidatesButton.addActionListener(e -> {
-            // Action to navigate to the Manage Candidates screen
             adminOptionFrame.dispose(); // Close the current frame
             showAdminCandidateScreen(); // Show the candidate management screen
         });
+        
         gbc.gridy = 1; // Place button at the second row
         adminOptionFrame.add(manageCandidatesButton, gbc);
 
@@ -240,8 +246,9 @@ public class ElectBudz {
         setVoterCountButton.setFont(new Font("Segoe UI", Font.BOLD, 16));  // Bold and readable text
         setVoterCountButton.setPreferredSize(new Dimension(300, 80));  // Adjust size for visibility
         setVoterCountButton.setFocusPainted(false);  // Remove focus border
+        
+        // Check if candidates exist before setting the voter count
         setVoterCountButton.addActionListener(e -> {
-            // Check if candidates exist before setting the voter count
             if (positionVoteCount.isEmpty()) {
                 JOptionPane.showMessageDialog(adminOptionFrame,
                         "No candidates have been added yet. Please add at least one candidate before setting the voter count.",
@@ -252,6 +259,7 @@ public class ElectBudz {
                 showAdminVoterCountScreen(); // Show the voter count setup screen
             }
         });
+        
         gbc.gridy = 2; // Place button at the third row
         adminOptionFrame.add(setVoterCountButton, gbc);
 
@@ -262,8 +270,9 @@ public class ElectBudz {
         startElectionButton.setFont(new Font("Segoe UI", Font.BOLD, 16));  // Bold and readable text
         startElectionButton.setPreferredSize(new Dimension(300, 80));  // Adjust size for visibility
         startElectionButton.setFocusPainted(false);  // Remove focus border
+        
+        // Check if election setup is complete before starting
         startElectionButton.addActionListener(e -> {
-            // Check if election setup is complete before starting
             if (totalVoters == 0 || positionVoteCount.isEmpty()) {
                 JOptionPane.showMessageDialog(adminOptionFrame,
                         "Election setup incomplete. Ensure candidates are added and voter count is set before starting the election.",
@@ -278,6 +287,7 @@ public class ElectBudz {
                 showAdminVoterSelectionScreen(); // Show the voter selection screen
             }
         });
+        
         gbc.gridy = 3; // Place button at the fourth row
         adminOptionFrame.add(startElectionButton, gbc);
 
@@ -286,6 +296,7 @@ public class ElectBudz {
         adminOptionFrame.setVisible(true);
     }
 
+    // method for showAdminCandidateScreen
     private static void showAdminCandidateScreen() {
         JFrame adminCandidateFrame = new JFrame("ElectBudz - Manage Candidates");
         adminCandidateFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -342,7 +353,7 @@ public class ElectBudz {
             public void run() {
                 displayPanel.removeAll(); // Clear the existing list
 
-                // Iterate over position and candidate map
+                // Iterate over position and candidate map (initializeDefaultCandidates)
                 positionVoteCount.forEach((position, candidates) -> {
                     // Add a label for the position
                     JLabel positionLabel = new JLabel(position);
@@ -460,6 +471,7 @@ public class ElectBudz {
         adminCandidateFrame.setVisible(true);
     }
 
+    // Method for setting No. of voters
     private static void showAdminVoterCountScreen() {
         JFrame voterCountFrame = new JFrame("ElectBudz - Set Number of Voters");
         voterCountFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -529,6 +541,7 @@ public class ElectBudz {
         SwingUtilities.invokeLater(voterCountField::requestFocusInWindow);
     }
 
+    // Method for Voting Screen
     private static void showVotingScreen() {
         if (currentVoter < totalVoters) {
             JFrame votingFrame = new JFrame("ElectBudz - Voting " + (currentVoter + 1));
@@ -674,6 +687,7 @@ public class ElectBudz {
         }
     }
 
+    // Method Results Screen
     private static void showResultsScreen() { // SID DITO KUPAL KA
         JFrame resultsFrame = new JFrame("ElectBudz - Election Results");
         resultsFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -753,7 +767,7 @@ public class ElectBudz {
         resultsFrame.setVisible(true);
     } // HANGGANG D2 LANG KUPAL
 
-// Updated method to show Admin options only if results are available
+    // Method for displaying Admin options only if results are available
     private static void showAdminOptionsWithResults() {
         if (positionVoteCount.isEmpty()) {
             JOptionPane.showMessageDialog(null, "No results available. Start an election first!");
@@ -813,11 +827,11 @@ public class ElectBudz {
         adminFrame.setVisible(true);
     }
 
-// Method to reset election data
+    // Method to reset election data
     private static void resetElectionData() {
         // Clear vote counts but retain the default candidates by reinitializing them
         positionVoteCount.clear();
-        initializeDefaultCandidates(); // Reinitialize default candidates with zero vote count
+        initializeDefaultCandidates(); // Reinitializes default candidates with zero vote count
         currentVoter = 0;
         totalVoters = 0;
     }
