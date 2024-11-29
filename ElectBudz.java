@@ -49,12 +49,18 @@ public class ElectBudz {
         SwingUtilities.invokeLater(ElectBudz::showAdminVoterSelectionScreen); // method for the Event Dispatch Thread (EDT)
     }
 
+    // Show the Admin/Voter Selection Screen
     private static void showAdminVoterSelectionScreen() {
         JFrame selectionFrame = new JFrame("ElectBudz - Main Menu");
         selectionFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         selectionFrame.setSize(600, 400);  // Increased size for better layout
         selectionFrame.setLayout(new BorderLayout());
         selectionFrame.getContentPane().setBackground(Color.WHITE);
+
+        // Set the application icon
+        String iconPath = "C:/Users/erich/OneDrive/Documents/NetBeansProjects/ElectBudz/src/main/java/com/mycompany/electbudz/ElectBudz Logo/Elect Budz Logo.png";
+        ImageIcon icon = new ImageIcon(iconPath);
+        selectionFrame.setIconImage(icon.getImage());
 
         // Title Label at the Top
         JLabel promptLabel = new JLabel("Welcome to ElectBudz!", SwingConstants.CENTER);
@@ -73,7 +79,7 @@ public class ElectBudz {
         voterButton.setFont(new Font("Segoe UI", Font.BOLD, 18)); // Larger font
         voterButton.setFocusPainted(false);
         voterButton.setBorder(BorderFactory.createEmptyBorder(15, 30, 15, 30)); // Padding for size
-        
+
         // if-else for voting
         voterButton.addActionListener(e -> {
             if (positionVoteCount.isEmpty() || totalVoters == 0) { // Validates if the election setup is complete
@@ -101,7 +107,7 @@ public class ElectBudz {
         adminButton.setFont(new Font("Segoe UI", Font.BOLD, 14)); // Smaller font
         adminButton.setFocusPainted(false);
         adminButton.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20)); // Padding for size
-        
+
         // Triggers promptAdminPassword
         adminButton.addActionListener(e -> {
             selectionFrame.dispose();
@@ -126,6 +132,11 @@ public class ElectBudz {
         gbc.insets = new Insets(10, 15, 10, 15);
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.weightx = 1.0;
+
+        // Set the application icon
+        String iconPath = "C:/Users/erich/OneDrive/Documents/NetBeansProjects/ElectBudz/src/main/java/com/mycompany/electbudz/ElectBudz Logo/Elect Budz Logo.png";
+        ImageIcon icon = new ImageIcon(iconPath);
+        passwordDialog.setIconImage(icon.getImage());
 
         // Title and Password Field
         JLabel titleLabel = new JLabel("Enter Admin Password", SwingConstants.CENTER);
@@ -208,6 +219,11 @@ public class ElectBudz {
         adminOptionFrame.setLayout(new GridBagLayout());  // Use GridBagLayout for better control
         adminOptionFrame.getContentPane().setBackground(Color.WHITE);  // Set white background
 
+        // Set the application icon
+        String iconPath = "C:/Users/erich/OneDrive/Documents/NetBeansProjects/ElectBudz/src/main/java/com/mycompany/electbudz/ElectBudz Logo/Elect Budz Logo.png";
+        ImageIcon icon = new ImageIcon(iconPath);
+        adminOptionFrame.setIconImage(icon.getImage());
+
         // Layout constraints for GridBagLayout
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(15, 15, 15, 15);  // Add spacing between components
@@ -229,13 +245,13 @@ public class ElectBudz {
         manageCandidatesButton.setFont(new Font("Segoe UI", Font.BOLD, 16));  // Bold and readable text
         manageCandidatesButton.setPreferredSize(new Dimension(300, 80));  // Adjust size for visibility
         manageCandidatesButton.setFocusPainted(false);  // Remove the white focus box
-        
+
         // Action to navigate to the Manage Candidates screen
         manageCandidatesButton.addActionListener(e -> {
             adminOptionFrame.dispose(); // Close the current frame
             showAdminCandidateScreen(); // Show the candidate management screen
         });
-        
+
         gbc.gridy = 1; // Place button at the second row
         adminOptionFrame.add(manageCandidatesButton, gbc);
 
@@ -246,7 +262,7 @@ public class ElectBudz {
         setVoterCountButton.setFont(new Font("Segoe UI", Font.BOLD, 16));  // Bold and readable text
         setVoterCountButton.setPreferredSize(new Dimension(300, 80));  // Adjust size for visibility
         setVoterCountButton.setFocusPainted(false);  // Remove focus border
-        
+
         // Check if candidates exist before setting the voter count
         setVoterCountButton.addActionListener(e -> {
             if (positionVoteCount.isEmpty()) {
@@ -259,7 +275,7 @@ public class ElectBudz {
                 showAdminVoterCountScreen(); // Show the voter count setup screen
             }
         });
-        
+
         gbc.gridy = 2; // Place button at the third row
         adminOptionFrame.add(setVoterCountButton, gbc);
 
@@ -270,7 +286,7 @@ public class ElectBudz {
         startElectionButton.setFont(new Font("Segoe UI", Font.BOLD, 16));  // Bold and readable text
         startElectionButton.setPreferredSize(new Dimension(300, 80));  // Adjust size for visibility
         startElectionButton.setFocusPainted(false);  // Remove focus border
-        
+
         // Check if election setup is complete before starting
         startElectionButton.addActionListener(e -> {
             if (totalVoters == 0 || positionVoteCount.isEmpty()) {
@@ -287,7 +303,7 @@ public class ElectBudz {
                 showAdminVoterSelectionScreen(); // Show the voter selection screen
             }
         });
-        
+
         gbc.gridy = 3; // Place button at the fourth row
         adminOptionFrame.add(startElectionButton, gbc);
 
@@ -302,6 +318,11 @@ public class ElectBudz {
         adminCandidateFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         adminCandidateFrame.setSize(900, 500);
         adminCandidateFrame.setLayout(new BorderLayout(10, 10));
+
+        // Set the application icon
+        String iconPath = "C:/Users/erich/OneDrive/Documents/NetBeansProjects/ElectBudz/src/main/java/com/mycompany/electbudz/ElectBudz Logo/Elect Budz Logo.png";
+        ImageIcon icon = new ImageIcon(iconPath);
+        adminCandidateFrame.setIconImage(icon.getImage());
 
         // Input Panel: Add candidates
         JPanel inputPanel = new JPanel(new GridLayout(5, 1, 10, 10));
@@ -479,6 +500,11 @@ public class ElectBudz {
         voterCountFrame.setLayout(new GridBagLayout());  // Use GridBagLayout for overall alignment
         voterCountFrame.getContentPane().setBackground(new Color(245, 245, 245));
 
+        // Set the application icon
+        String iconPath = "C:/Users/erich/OneDrive/Documents/NetBeansProjects/ElectBudz/src/main/java/com/mycompany/electbudz/ElectBudz Logo/Elect Budz Logo.png";
+        ImageIcon icon = new ImageIcon(iconPath);
+        voterCountFrame.setIconImage(icon.getImage());
+
         // Create GridBagConstraints for alignment
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);  // Padding around components
@@ -543,6 +569,7 @@ public class ElectBudz {
 
     // Method for Voting Screen
     private static void showVotingScreen() {
+
         if (currentVoter < totalVoters) {
             JFrame votingFrame = new JFrame("ElectBudz - Voting " + (currentVoter + 1));
             votingFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -551,6 +578,11 @@ public class ElectBudz {
             JPanel mainPanel = new JPanel();
             mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
             mainPanel.setBackground(new Color(240, 240, 240));  // Light background for better contrast
+
+            // Set the application icon
+            String iconPath = "C:/Users/erich/OneDrive/Documents/NetBeansProjects/ElectBudz/src/main/java/com/mycompany/electbudz/ElectBudz Logo/Elect Budz Logo.png";
+            ImageIcon icon = new ImageIcon(iconPath);
+            votingFrame.setIconImage(icon.getImage());
 
             // Title
             JLabel promptLabel = new JLabel("Voter " + (currentVoter + 1) + ": Select your candidates", SwingConstants.CENTER);
@@ -694,6 +726,11 @@ public class ElectBudz {
         resultsFrame.setSize(700, 600);
         resultsFrame.setLayout(new BorderLayout(10, 10));
 
+        // Set the application icon
+        String iconPath = "C:/Users/erich/OneDrive/Documents/NetBeansProjects/ElectBudz/src/main/java/com/mycompany/electbudz/ElectBudz Logo/Elect Budz Logo.png";
+        ImageIcon icon = new ImageIcon(iconPath);
+        resultsFrame.setIconImage(icon.getImage());
+
         JLabel titleLabel = new JLabel("Election Results (Sorted by total of " + totalVoters + " voters)", SwingConstants.CENTER);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 18));
         resultsFrame.add(titleLabel, BorderLayout.NORTH);
@@ -778,6 +815,11 @@ public class ElectBudz {
         adminFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         adminFrame.setSize(400, 300);
         adminFrame.setLayout(new GridLayout(0, 1, 10, 10));
+
+        // Set the application icon
+        String iconPath = "C:/Users/erich/OneDrive/Documents/NetBeansProjects/ElectBudz/src/main/java/com/mycompany/electbudz/ElectBudz Logo/Elect Budz Logo.png";
+        ImageIcon icon = new ImageIcon(iconPath);
+        adminFrame.setIconImage(icon.getImage());
 
         JLabel titleLabel = new JLabel("Admin Panel", SwingConstants.CENTER);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 16));
