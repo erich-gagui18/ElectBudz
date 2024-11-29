@@ -1,4 +1,4 @@
-ElectBudz Need to Fix/Suggestions:
+ElectBudz Fix/Suggestions:
 
 Frontend:
  - Fix showAdminOptionsWithResults UI
@@ -6,10 +6,19 @@ Frontend:
  - Modify Scrollbar
  - Modify Election Results (SID)
  - Modify Check Boxes
+   - Highlight the winners' (green) and losers' (red) progress bars:
+      - Governor - 1
+      - V. Governor - 1
+      - Prov. Board Members - 2
+      - Mayor - 1
+      - V. Mayor - 1
+      - City/Town Councilor - 10
 
 Backend:
- - Goods
+ - 
 
 Notes:
- - Add Comments (For UI Design)
- - Redesign Logo
+  - Add Comments (For UI Design)
+  - Redesign Logo
+ 
+- Suggest more changes.
