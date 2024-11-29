@@ -1,14 +1,14 @@
 ElectBudz Need to Fix/Suggestions:
 
 Frontend:
+- Fix showAdminOptionsWithResults UI
 - Modify Alert Messages
 - Modify Scrollbar
 - Modify Election Results (SID)
-- Fix AdminPanelWithResults
 - Modify Check Boxes
 
 Backend:
- - Enter-enter
+ - Goods na
 
 Notes:
  - Add Comments

@@ -444,6 +444,9 @@ public class ElectBudz {
             }
         });
 
+        // Trigger Add Candidate with Enter key
+        candidateField.addActionListener(e -> addCandidateButton.doClick());
+
         // Done Button Action
         doneButton.addActionListener(e -> {
             adminCandidateFrame.dispose();
@@ -459,57 +462,71 @@ public class ElectBudz {
 
     private static void showAdminVoterCountScreen() {
         JFrame voterCountFrame = new JFrame("ElectBudz - Set Number of Voters");
-        voterCountFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);  // Close this window only, not the entire application
-        voterCountFrame.setSize(350, 200);  // Set the size of the window
-        voterCountFrame.setLayout(new GridLayout(3, 1, 10, 10));  // Grid layout with 3 rows and 1 column (for prompt, input, and button)
-        voterCountFrame.getContentPane().setBackground(new Color(245, 245, 245));  // Set light background color for the frame
+        voterCountFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        voterCountFrame.setSize(400, 300);
+        voterCountFrame.setLayout(new GridBagLayout());  // Use GridBagLayout for overall alignment
+        voterCountFrame.getContentPane().setBackground(new Color(245, 245, 245));
 
-        // Title Label with improved font styling and color
-        JLabel promptLabel = new JLabel("Enter Number of Voters", SwingConstants.CENTER);  // Centered text
-        promptLabel.setFont(new Font("Segoe UI", Font.BOLD, 16));  // Set font to bold Segoe UI with size 16
-        promptLabel.setForeground(new Color(0, 51, 102));  // Dark blue color for the text
-        voterCountFrame.add(promptLabel);  // Add the label to the frame
+        // Create GridBagConstraints for alignment
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(10, 10, 10, 10);  // Padding around components
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.anchor = GridBagConstraints.CENTER;  // Center alignment
 
-        // Voter Count Input Field with better design
-        JTextField voterCountField = new JTextField(10);  // Create a text field with a width of 10 characters
-        voterCountField.setFont(new Font("Segoe UI", Font.PLAIN, 14));  // Set font style and size for the input field
-        voterCountField.setBackground(new Color(240, 240, 240));  // Light gray background for input field
-        voterCountField.setForeground(Color.BLACK);  // Set text color to black
-        // Add padding and rounded border to the input field for better aesthetics
+        // Title Label
+        JLabel promptLabel = new JLabel("Enter Number of Voters", SwingConstants.CENTER);
+        promptLabel.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        promptLabel.setForeground(new Color(0, 51, 102));
+        voterCountFrame.add(promptLabel, gbc);
+
+        // Voter Count Input Field
+        JTextField voterCountField = new JTextField(10);  // Width ensures the cursor starts in the middle
+        voterCountField.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        voterCountField.setHorizontalAlignment(JTextField.CENTER);  // Align text and cursor to center
+        voterCountField.setBackground(new Color(240, 240, 240));
+        voterCountField.setForeground(Color.BLACK);
         voterCountField.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createLineBorder(new Color(200, 200, 200), 1), // Light gray border color
-                BorderFactory.createEmptyBorder(5, 5, 5, 5) // Padding inside the text field
+                BorderFactory.createLineBorder(new Color(200, 200, 200), 1),
+                BorderFactory.createEmptyBorder(5, 5, 5, 5)
         ));
-        voterCountFrame.add(voterCountField);  // Add the input field to the frame
+        gbc.gridy = 1;  // Move to next row
+        voterCountFrame.add(voterCountField, gbc);
 
-        // Set Button with improved design and action handling
-        JButton setButton = new JButton("Set Voter Count");  // Create a button to set the voter count
-        setButton.setBackground(new Color(0, 123, 255));  // Set blue background for the button
-        setButton.setForeground(Color.WHITE);  // Set white text color for the button
-        setButton.setFont(new Font("Segoe UI", Font.BOLD, 14));  // Bold Segoe UI font for the button text
-        setButton.setFocusPainted(false);  // Remove focus paint effect on button (no border on focus)
-        setButton.setPreferredSize(new Dimension(150, 35));  // Set a specific button size (150x35)
-        // Action listener to handle button click event
+        // Set Button
+        JButton setButton = new JButton("Set Voter Count");
+        setButton.setBackground(new Color(0, 123, 255));
+        setButton.setForeground(Color.WHITE);
+        setButton.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        setButton.setFocusPainted(false);
+        gbc.gridy = 2;  // Move to next row
+        voterCountFrame.add(setButton, gbc);
+
+        // Add Action Listener for Enter Key Trigger
+        voterCountField.addActionListener(e -> setButton.doClick());
+
+        // Set Button Action
         setButton.addActionListener(e -> {
             try {
-                // Attempt to parse the entered voter count from the text field
-                totalVoters = Integer.parseInt(voterCountField.getText().trim());  // Remove leading/trailing spaces
-                if (totalVoters <= 0) {  // Ensure that the number of voters is positive
+                totalVoters = Integer.parseInt(voterCountField.getText().trim());
+                if (totalVoters <= 0) {
                     JOptionPane.showMessageDialog(voterCountFrame, "Number of voters must be greater than zero.");
                 } else {
-                    JOptionPane.showMessageDialog(voterCountFrame, "Voter count set successfully.");  // Success message
-                    voterCountFrame.dispose();  // Close the current frame
-                    showAdminOptionSelectionScreen();  // Show the next screen (admin options)
+                    JOptionPane.showMessageDialog(voterCountFrame, "Voter count set successfully.");
+                    voterCountFrame.dispose();
+                    showAdminOptionSelectionScreen();
                 }
-            } catch (NumberFormatException ex) {  // Handle invalid number format (non-numeric input)
+            } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(voterCountFrame, "Invalid number format. Please enter a valid number.");
             }
         });
-        voterCountFrame.add(setButton);  // Add the button to the frame
 
-        // Center the window on the screen
-        voterCountFrame.setLocationRelativeTo(null);  // Center the window on the screen
-        voterCountFrame.setVisible(true);  // Make the frame visible
+        // Center the window and make it visible
+        voterCountFrame.setLocationRelativeTo(null);
+        voterCountFrame.setVisible(true);
+
+        // Request focus to ensure the cursor starts blinking immediately
+        SwingUtilities.invokeLater(voterCountField::requestFocusInWindow);
     }
 
     private static void showVotingScreen() {
@@ -551,7 +568,7 @@ public class ElectBudz {
                             JCheckBox checkBox = new JCheckBox(candidate);
 
                             // logic for allowing unchecking
-                            if (position.equals("Mayor") || position.equals("Vice Mayor") || position.equals("Governor") || position.equals("Vice Governor") || position.equals("Provincial Board Member")) {
+                            if (position.equals("Mayor") || position.equals("Vice Mayor") || position.equals("Governor") || position.equals("Vice Governor")) {
                                 checkBox.addItemListener(e -> {
                                     if (e.getStateChange() == ItemEvent.SELECTED) {
                                         // Unselect all other checkboxes in this group
