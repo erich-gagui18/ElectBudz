@@ -1,11 +1,11 @@
 ElectBudz Fix/Suggestions:
 
 Frontend:
- - Fix showAdminOptionsWithResults UI
- - Modify Alert Messages
+ - Modify Alert Messages (Make it Consistent)
  - Modify Scrollbar
  - Modify Election Results (SID)
  - Modify Check Boxes
+ - Fix showAdminOptionsWithResults UI
    - Highlight the winners' (green) and losers' (red) progress bars:
       - Governor - 1
       - V. Governor - 1
