@@ -82,12 +82,23 @@ public class ElectBudz {
 
         // if-else for voting
         voterButton.addActionListener(e -> {
-            if (positionVoteCount.isEmpty() || totalVoters == 0) { // Validates if the election setup is complete
+            if (positionVoteCount.isEmpty() || totalVoters == 0) {
                 JOptionPane.showMessageDialog(selectionFrame,
-                        "Election setup incomplete. Please ask the admin to add candidates and set the voter count.");
+                        //Alert design
+                        "<html><div style='text-align: center;'>"
+                        + "<span style='color: #BF0D3E; font-size: 14px;'>Election setup incomplete!</span><br>"
+                        + "Please ask the admin to add candidates and set the voter count."
+                        + "</div></html>",
+                        "Setup Incomplete",
+                        JOptionPane.WARNING_MESSAGE);
             } else if (currentVoter >= totalVoters) {
                 JOptionPane.showMessageDialog(selectionFrame,
-                        "All voters have cast their votes. Election is complete!");
+                        "<html><div style='text-align: center;'>"
+                        + "<span style='color: #0032A0; font-size: 14px;'>All voters have cast their votes.</span><br>"
+                        + "Election is complete!"
+                        + "</div></html>",
+                        "Voting Complete",
+                        JOptionPane.INFORMATION_MESSAGE);
                 showResultsScreen();
             } else {
                 selectionFrame.dispose();
@@ -207,7 +218,14 @@ public class ElectBudz {
                 showAdminOptionSelectionScreen(); // Show option selection screen for a new election
             }
         } else {
-            JOptionPane.showMessageDialog(passwordDialog, "Incorrect password. Please try again.", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(passwordDialog,
+                    //design alert mess
+                    "<html><div style='text-align: center;'>"
+                    + "<span style='color: #BF0D3E; font-size: 14px;'>Incorrect password!</span><br>"
+                    + "Please try again."
+                    + "</div></html>",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
             passwordField.setText(""); // Clear the password field for retry
         }
     }
@@ -267,7 +285,11 @@ public class ElectBudz {
         setVoterCountButton.addActionListener(e -> {
             if (positionVoteCount.isEmpty()) {
                 JOptionPane.showMessageDialog(adminOptionFrame,
-                        "No candidates have been added yet. Please add at least one candidate before setting the voter count.",
+                        //Design for Alert message
+                        "<html><div style='text-align: center;'>"
+                        + "<span style='color: #BF0D3E;'>No candidates added!</span><br>"
+                        + "Please add at least one candidate before setting the voter count."
+                        + "</div></html>",
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
             } else {
@@ -291,12 +313,19 @@ public class ElectBudz {
         startElectionButton.addActionListener(e -> {
             if (totalVoters == 0 || positionVoteCount.isEmpty()) {
                 JOptionPane.showMessageDialog(adminOptionFrame,
-                        "Election setup incomplete. Ensure candidates are added and voter count is set before starting the election.",
+                        // Design alert message
+                        "<html><div style='text-align: center;'>"
+                        + "<span style='color: #BF0D3E;'>Election setup incomplete!</span><br>"
+                        + "Ensure candidates are added and voter count is set before starting the election."
+                        + "</div></html>",
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
             } else {
                 JOptionPane.showMessageDialog(adminOptionFrame,
-                        "Election is starting... Voters can now proceed to vote!",
+                        "<html><div style='text-align: center;'>"
+                        + "<span style='color: #28A745;'>Election is starting...</span><br>"
+                        + "Voters can now proceed to vote!"
+                        + "</div></html>",
                         "Election Started",
                         JOptionPane.INFORMATION_MESSAGE);
                 adminOptionFrame.dispose(); // Close the current frame
@@ -410,10 +439,24 @@ public class ElectBudz {
                                     if (newCandidateName != null && !newCandidateName.trim().isEmpty() && !candidates.containsKey(newCandidateName)) {
                                         candidates.remove(candidate); // Remove old candidate name
                                         candidates.put(newCandidateName, candidates.getOrDefault(candidate, 0)); // Preserve votes if applicable
-                                        JOptionPane.showMessageDialog(adminCandidateFrame, "Candidate name updated!");
+                                        JOptionPane.showMessageDialog(
+                                                adminCandidateFrame,
+                                                "<html><div style='text-align: center;'>"
+                                                + "<span style='color: #28A745; font-size: 14px;'>Candidate name updated successfully!</span>"
+                                                + "</div></html>",
+                                                "Update Successful",
+                                                JOptionPane.INFORMATION_MESSAGE
+                                        );
                                         SwingUtilities.invokeLater(this); // Refresh the display panel
                                     } else if (candidates.containsKey(newCandidateName)) {
-                                        JOptionPane.showMessageDialog(adminCandidateFrame, "Candidate name already exists!");
+                                        JOptionPane.showMessageDialog(
+                                                adminCandidateFrame,
+                                                "<html><div style='text-align: center;'>"
+                                                + "<span style='color: #BF0D3E; font-size: 14px;'>Candidate name already exists!</span>"
+                                                + "</div></html>",
+                                                "Duplicate Candidate",
+                                                JOptionPane.WARNING_MESSAGE
+                                        );
                                     }
                                 });
 
@@ -425,13 +468,24 @@ public class ElectBudz {
                                 deleteButton.addActionListener(e -> {
                                     int confirm = JOptionPane.showConfirmDialog(
                                             adminCandidateFrame,
-                                            "Are you sure you want to delete " + candidate + "?",
+                                            "<html><div style='text-align: center;'>"
+                                            + "<span style='color: #BF0D3E; font-size: 14px;'>Are you sure you want to delete:</span><br>"
+                                            + "<b style='color: #0032A0; font-size: 16px;'>" + candidate + "</b>"
+                                            + "</div></html>",
                                             "Confirm Delete",
-                                            JOptionPane.YES_NO_OPTION
+                                            JOptionPane.YES_NO_OPTION,
+                                            JOptionPane.WARNING_MESSAGE
                                     );
                                     if (confirm == JOptionPane.YES_OPTION) {
                                         candidates.remove(candidate); // Remove the candidate
-                                        JOptionPane.showMessageDialog(adminCandidateFrame, "Candidate deleted successfully!");
+                                        JOptionPane.showMessageDialog(
+                                                adminCandidateFrame,
+                                                "<html><div style='text-align: center;'>"
+                                                + "<span style='color: #28A745; font-size: 14px;'>Candidate deleted successfully!</span><br>"
+                                                + "</div></html>",
+                                                "Delete Successful",
+                                                JOptionPane.INFORMATION_MESSAGE
+                                        );
                                         SwingUtilities.invokeLater(this); // Refresh the display panel
                                     }
                                 });
@@ -460,16 +514,39 @@ public class ElectBudz {
             String candidateName = candidateField.getText().trim();
 
             if (candidateName.isEmpty()) {
-                JOptionPane.showMessageDialog(adminCandidateFrame, "Candidate name cannot be empty.");
+                JOptionPane.showMessageDialog(
+                        adminCandidateFrame,
+                        "<html><div style='text-align: center;'>"
+                        + "<span style='color: #BF0D3E; font-size: 14px;'>Candidate name cannot be empty.</span>"
+                        + "</div></html>",
+                        "Input Error",
+                        JOptionPane.WARNING_MESSAGE
+                );
             } else {
                 positionVoteCount.putIfAbsent(selectedPosition, new LinkedHashMap<>());
                 LinkedHashMap<String, Integer> candidates = positionVoteCount.get(selectedPosition);
 
                 if (candidates.containsKey(candidateName)) {
-                    JOptionPane.showMessageDialog(adminCandidateFrame, "Candidate already exists for this position.");
+                    JOptionPane.showMessageDialog(
+                            adminCandidateFrame,
+                            "<html><div style='text-align: center;'>"
+                            + "<span style='color: #BF0D3E; font-size: 14px;'>Candidate already exists</span><br>"
+                            + "for the position: <b>" + selectedPosition + "</b>."
+                            + "</div></html>",
+                            "Duplicate Candidate",
+                            JOptionPane.WARNING_MESSAGE
+                    );
                 } else {
                     candidates.put(candidateName, 0);
-                    JOptionPane.showMessageDialog(adminCandidateFrame, "Candidate added successfully under " + selectedPosition);
+                    JOptionPane.showMessageDialog(
+                            adminCandidateFrame,
+                            "<html><div style='text-align: center;'>"
+                            + "<span style='color: #28A745; font-size: 14px;'>Candidate added successfully!</span><br>"
+                            + "Under position: <b>" + selectedPosition + "</b>"
+                            + "</div></html>",
+                            "Candidate Added",
+                            JOptionPane.INFORMATION_MESSAGE
+                    );
                     candidateField.setText("");
                     updateDisplayPanel.run();  // Refresh display
                 }
@@ -546,16 +623,26 @@ public class ElectBudz {
         // Set Button Action
         setButton.addActionListener(e -> {
             try {
-                totalVoters = Integer.parseInt(voterCountField.getText().trim());
-                if (totalVoters <= 0) {
-                    JOptionPane.showMessageDialog(voterCountFrame, "Number of voters must be greater than zero.");
+                // Attempt to parse the entered voter count from the text field
+                totalVoters = Integer.parseInt(voterCountField.getText().trim());  // Remove leading/trailing spaces
+                if (totalVoters <= 0) {  // Ensure that the number of voters is positive
+                    // Use custom alert for invalid number with HTML formatting
+                    JOptionPane.showMessageDialog(voterCountFrame, "<html><div style='text-align: center;'>"
+                            + "<span style='color: #D32F2F;'>Number of voters must be greater than zero.</span>"
+                            + "</div></html>", "Error", JOptionPane.ERROR_MESSAGE);
                 } else {
-                    JOptionPane.showMessageDialog(voterCountFrame, "Voter count set successfully.");
-                    voterCountFrame.dispose();
-                    showAdminOptionSelectionScreen();
+                    // Use custom alert for success with HTML formatting
+                    JOptionPane.showMessageDialog(voterCountFrame, "<html><div style='text-align: center;'>"
+                            + "<span style='color: #28A745;'>Voter count set successfully.</span>"
+                            + "</div></html>", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    voterCountFrame.dispose();  // Close the current frame
+                    showAdminOptionSelectionScreen();  // Show the next screen (admin options)
                 }
-            } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(voterCountFrame, "Invalid number format. Please enter a valid number.");
+            } catch (NumberFormatException ex) {  // Handle invalid number format (non-numeric input)
+                // Use custom alert for invalid number format with HTML formatting
+                JOptionPane.showMessageDialog(voterCountFrame, "<html><div style='text-align: center;'>"
+                        + "<span style='color: #D32F2F;'>Invalid number format. Please enter a valid number.</span>"
+                        + "</div></html>", "Error", JOptionPane.ERROR_MESSAGE);
             }
         });
 
@@ -674,10 +761,19 @@ public class ElectBudz {
                     };
 
                     if (selectedCandidates.size() > maxVotes) {
-                        JOptionPane.showMessageDialog(votingFrame,
-                                "You can select a maximum of " + maxVotes + " candidate(s) for " + position + ".");
+                        JOptionPane.showMessageDialog(
+                                votingFrame,
+                                "<html><div style='text-align: center;'>"
+                                + "<span style='color: #BF0D3E; font-size: 14px;'>"
+                                + "You can select a maximum of " + maxVotes + " candidate(s)</span><br>"
+                                + "for the position of <b style='color: #0032A0;'>" + position + "</b>."
+                                + "</div></html>",
+                                "Vote Limit Exceeded",
+                                JOptionPane.WARNING_MESSAGE
+                        );
                         validVotes = false;
                         break;
+
                     }
                     votes.put(position, selectedCandidates);
                 }
@@ -692,7 +788,15 @@ public class ElectBudz {
                     });
 
                     currentVoter++;
-                    JOptionPane.showMessageDialog(votingFrame, "Your votes have been submitted!");
+                    JOptionPane.showMessageDialog(
+                            votingFrame,
+                            "<html><div style='text-align: center;'>"
+                            + "<span style='color: #28A745; font-size: 16px;'>Your votes have been submitted successfully!</span><br>"
+                            + "Thank you for participating in the election."
+                            + "</div></html>",
+                            "Vote Submitted",
+                            JOptionPane.INFORMATION_MESSAGE
+                    );
 
                     votingFrame.dispose();
 
@@ -811,60 +915,93 @@ public class ElectBudz {
             return; // Exit the method if there are no results
         }
 
-        JFrame adminFrame = new JFrame("ElectBudz - Admin Options");
+        // Create the main frame for the Admin Options
+        JFrame adminFrame = new JFrame("ElectBudz - Admin Panel");
         adminFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        adminFrame.setSize(400, 300);
-        adminFrame.setLayout(new GridLayout(0, 1, 10, 10));
+        adminFrame.setSize(450, 500); // Adjusted size for larger buttons
+        adminFrame.setLayout(new GridBagLayout()); // Use GridBagLayout for better control
+        adminFrame.getContentPane().setBackground(Color.WHITE); // Set white background
+
+        // Layout constraints for GridBagLayout
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(15, 15, 15, 15); // Add spacing between components
+        gbc.fill = GridBagConstraints.HORIZONTAL; // Buttons will stretch horizontally
+        gbc.gridx = 0; // Single column layout
+        gbc.gridwidth = 1;
 
         // Set the application icon
         String iconPath = "C:/Users/erich/OneDrive/Documents/NetBeansProjects/ElectBudz/src/main/java/com/mycompany/electbudz/ElectBudz Logo/Elect Budz Logo.png";
         ImageIcon icon = new ImageIcon(iconPath);
         adminFrame.setIconImage(icon.getImage());
 
-        JLabel titleLabel = new JLabel("Admin Panel", SwingConstants.CENTER);
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 16));
-        adminFrame.add(titleLabel);
+        // Title Label at the top
+        JLabel titleLabel = new JLabel("Admin Panel: Choose an option", SwingConstants.CENTER);
+        titleLabel.setFont(new Font("Segoe UI", Font.BOLD, 18)); // Set font style and size
+        titleLabel.setForeground(Color.BLACK); // Black font color for readability
+        gbc.gridy = 0; // Place label at the first row
+        adminFrame.add(titleLabel, gbc);
 
         // Button to view election results
         JButton viewResultsButton = new JButton("View Election Results");
-        viewResultsButton.setBackground(Color.decode("#0032A0"));
-        viewResultsButton.setForeground(Color.WHITE);
-        viewResultsButton.setFont(new Font("Segoe UI", Font.BOLD, 16));
-        viewResultsButton.setFocusPainted(false);
+        viewResultsButton.setBackground(Color.decode("#0032A0")); // Blue background
+        viewResultsButton.setForeground(Color.WHITE); // White text for contrast
+        viewResultsButton.setFont(new Font("Segoe UI", Font.BOLD, 16)); // Bold and readable text
+        viewResultsButton.setPreferredSize(new Dimension(300, 80)); // Adjust size for visibility
+        viewResultsButton.setFocusPainted(false); // Remove the white focus box
         viewResultsButton.addActionListener(e -> showResultsScreen());
-        adminFrame.add(viewResultsButton);
+        gbc.gridy = 1; // Place button at the second row
+        adminFrame.add(viewResultsButton, gbc);
 
         // Button to start a new election
         JButton newElectionButton = new JButton("Start New Election");
-        newElectionButton.setBackground(Color.decode("#FED141"));
-        newElectionButton.setForeground(Color.BLACK);
-        newElectionButton.setFont(new Font("Segoe UI", Font.BOLD, 16));
-        newElectionButton.setFocusPainted(false);
+        newElectionButton.setBackground(Color.decode("#FED141")); // Yellow background
+        newElectionButton.setForeground(Color.BLACK); // Black text for contrast
+        newElectionButton.setFont(new Font("Segoe UI", Font.BOLD, 16)); // Bold and readable text
+        newElectionButton.setPreferredSize(new Dimension(300, 80)); // Adjust size for visibility
+        newElectionButton.setFocusPainted(false); // Remove focus border
         newElectionButton.addActionListener(e -> {
             int confirm = JOptionPane.showConfirmDialog(
                     adminFrame,
-                    "This will clear all previous election data. Are you sure you want to start a new election?",
+                    //Design for alert message
+                    "<html><div style='text-align: center;'>"
+                    + "<span style='color: #BF0D3E; font-size: 14px;'>This will clear all previous election data.</span><br>"
+                    + "Are you sure you want to start a new election?"
+                    + "</div></html>",
                     "Confirm New Election",
-                    JOptionPane.YES_NO_OPTION
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.WARNING_MESSAGE
             );
+
             if (confirm == JOptionPane.YES_OPTION) {
                 resetElectionData(); // Reset election data
-                JOptionPane.showMessageDialog(adminFrame, "Election reset successful! Ready for a new election.");
+                JOptionPane.showMessageDialog(
+                        adminFrame,
+                        "<html><div style='text-align: center;'>"
+                        + "<span style='color: #28A745; font-size: 14px;'><b>Election reset successful!</b></span><br>"
+                        + "Ready for a new election."
+                        + "</div></html>",
+                        "Election Reset",
+                        JOptionPane.INFORMATION_MESSAGE
+                );
                 adminFrame.dispose();
                 showAdminVoterSelectionScreen(); // Redirect to the main menu
             }
         });
-        adminFrame.add(newElectionButton);
+        gbc.gridy = 2; // Place button at the third row
+        adminFrame.add(newElectionButton, gbc);
 
         // Exit button
         JButton exitButton = new JButton("Exit Admin Panel");
-        exitButton.setBackground(Color.decode("#BF0D3E"));
-        exitButton.setForeground(Color.WHITE);
-        exitButton.setFont(new Font("Segoe UI", Font.BOLD, 16));
-        exitButton.setFocusPainted(false);
+        exitButton.setBackground(Color.decode("#BF0D3E")); // Red background
+        exitButton.setForeground(Color.WHITE); // White text for contrast
+        exitButton.setFont(new Font("Segoe UI", Font.BOLD, 16)); // Bold and readable text
+        exitButton.setPreferredSize(new Dimension(300, 80)); // Adjust size for visibility
+        exitButton.setFocusPainted(false); // Remove focus border
         exitButton.addActionListener(e -> adminFrame.dispose());
-        adminFrame.add(exitButton);
+        gbc.gridy = 3; // Place button at the fourth row
+        adminFrame.add(exitButton, gbc);
 
+        // Center the frame on the screen and make it visible
         adminFrame.setLocationRelativeTo(null);
         adminFrame.setVisible(true);
     }
