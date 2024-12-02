@@ -53,7 +53,7 @@ public class ElectBudz {
     private static void showAdminVoterSelectionScreen() {
         JFrame selectionFrame = new JFrame("ElectBudz - Main Menu");
         selectionFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        selectionFrame.setSize(600, 400);  // Increased size for better layout
+        selectionFrame.setSize(1000, 700); // Increased size for better layout
         selectionFrame.setLayout(new BorderLayout());
         selectionFrame.getContentPane().setBackground(Color.WHITE);
 
@@ -233,7 +233,7 @@ public class ElectBudz {
     private static void showAdminOptionSelectionScreen() {
         JFrame adminOptionFrame = new JFrame("ElectBudz - Admin Panel");
         adminOptionFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        adminOptionFrame.setSize(450, 500);  // Adjusted size for larger buttons
+        adminOptionFrame.setSize(1000, 700);  // Adjusted size for larger buttons
         adminOptionFrame.setLayout(new GridBagLayout());  // Use GridBagLayout for better control
         adminOptionFrame.getContentPane().setBackground(Color.WHITE);  // Set white background
 
@@ -345,7 +345,7 @@ public class ElectBudz {
     private static void showAdminCandidateScreen() {
         JFrame adminCandidateFrame = new JFrame("ElectBudz - Manage Candidates");
         adminCandidateFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        adminCandidateFrame.setSize(900, 500);
+        adminCandidateFrame.setSize(1000, 700);
         adminCandidateFrame.setLayout(new BorderLayout(10, 10));
 
         // Set the application icon
@@ -462,7 +462,7 @@ public class ElectBudz {
 
                                 // Delete Button
                                 JButton deleteButton = new JButton("Delete");
-                                deleteButton.setBackground(new Color(255, 69, 0)); // Red
+                                deleteButton.setBackground(Color.decode("#BF0D3E")); // Red
                                 deleteButton.setForeground(Color.WHITE);
                                 deleteButton.setFocusPainted(false);
                                 deleteButton.addActionListener(e -> {
@@ -660,7 +660,7 @@ public class ElectBudz {
         if (currentVoter < totalVoters) {
             JFrame votingFrame = new JFrame("ElectBudz - Voting " + (currentVoter + 1));
             votingFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            votingFrame.setSize(500, 700);
+            votingFrame.setSize(1000, 700);
             // Main panel to hold all components
             JPanel mainPanel = new JPanel();
             mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
@@ -827,7 +827,7 @@ public class ElectBudz {
     private static void showResultsScreen() {
         JFrame resultsFrame = new JFrame("ElectBudz - Election Results");
         resultsFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        resultsFrame.setSize(800, 600);
+        resultsFrame.setSize(1000, 700);
         resultsFrame.setLayout(new BorderLayout(10, 10));
 
         // Set the application icon
@@ -949,7 +949,7 @@ public class ElectBudz {
         // Create the main frame for the Admin Options
         JFrame adminFrame = new JFrame("ElectBudz - Admin Panel");
         adminFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        adminFrame.setSize(450, 500); // Adjusted size for larger buttons
+        adminFrame.setSize(1000, 700); // Adjusted size for larger buttons
         adminFrame.setLayout(new GridBagLayout()); // Use GridBagLayout for better control
         adminFrame.getContentPane().setBackground(Color.WHITE); // Set white background
 
