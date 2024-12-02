@@ -824,10 +824,10 @@ public class ElectBudz {
     }
 
     // Method Results Screen
-    private static void showResultsScreen() { // SID DITO KUPAL KA
+    private static void showResultsScreen() {
         JFrame resultsFrame = new JFrame("ElectBudz - Election Results");
         resultsFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        resultsFrame.setSize(700, 600);
+        resultsFrame.setSize(800, 600);
         resultsFrame.setLayout(new BorderLayout(10, 10));
 
         // Set the application icon
@@ -835,26 +835,36 @@ public class ElectBudz {
         ImageIcon icon = new ImageIcon(iconPath);
         resultsFrame.setIconImage(icon.getImage());
 
+        // Title label with improved design
         JLabel titleLabel = new JLabel("Election Results (Sorted by total of " + totalVoters + " voters)", SwingConstants.CENTER);
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 18));
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 22));
+        titleLabel.setBorder(BorderFactory.createEmptyBorder(15, 0, 15, 0));
+        titleLabel.setOpaque(true);
+        titleLabel.setBackground(new Color(70, 130, 180)); // Steel blue background
+        titleLabel.setForeground(Color.WHITE); // White text
         resultsFrame.add(titleLabel, BorderLayout.NORTH);
 
+        // Panel to display results
         JPanel resultsPanel = new JPanel();
         resultsPanel.setLayout(new BoxLayout(resultsPanel, BoxLayout.Y_AXIS));
+        resultsPanel.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+        resultsPanel.setBackground(Color.WHITE);
+
         JScrollPane scrollPane = new JScrollPane(resultsPanel);
+        scrollPane.setBorder(BorderFactory.createEmptyBorder());
         resultsFrame.add(scrollPane, BorderLayout.CENTER);
 
         // Calculate and display results for each position
         positionVoteCount.forEach((position, candidates) -> {
-            JLabel positionLabel = new JLabel(position, SwingConstants.LEFT);
-            positionLabel.setFont(new Font("Arial", Font.BOLD, 16));
+            // Position title
+            JLabel positionLabel = new JLabel(position, SwingConstants.CENTER);
+            positionLabel.setFont(new Font("Arial", Font.BOLD, 18));
             positionLabel.setBorder(BorderFactory.createEmptyBorder(10, 0, 5, 0));
+            positionLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
             resultsPanel.add(positionLabel);
 
-            // Calculate the total votes for the position
+            // Calculate the total votes and skipped votes
             int totalVotesForPosition = candidates.values().stream().mapToInt(Integer::intValue).sum();
-
-            // Calculate skipped votes (voters who didn't vote for this position)
             int skippedVotes = totalVoters - totalVotesForPosition;
 
             candidates.entrySet().stream()
@@ -867,16 +877,29 @@ public class ElectBudz {
                                 ? String.format("%.2f%%", (votes * 100.0) / totalVoters)
                                 : "0.00%";
 
-                        JPanel candidatePanel = new JPanel(new BorderLayout());
-                        candidatePanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+                        // Candidate result panel
+                        JPanel candidatePanel = new JPanel();
+                        candidatePanel.setLayout(new BoxLayout(candidatePanel, BoxLayout.Y_AXIS));
+                        candidatePanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+                        candidatePanel.setBackground(new Color(240, 248, 255)); // Alice blue
 
-                        JLabel candidateLabel = new JLabel(candidate + ": " + votes + " votes (" + percentage + ")");
-                        JProgressBar progressBar = new JProgressBar(0, totalVoters); // Use totalVoters as the max value
+                        JLabel candidateTitleLabel = new JLabel(candidate, SwingConstants.CENTER);
+                        candidateTitleLabel.setFont(new Font("Arial", Font.BOLD, 14));
+                        candidateTitleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+                        JLabel candidateResultLabel = new JLabel(votes + " votes (" + percentage + ")", SwingConstants.CENTER);
+                        candidateResultLabel.setFont(new Font("Arial", Font.PLAIN, 12));
+                        candidateResultLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+                        JProgressBar progressBar = new JProgressBar(0, totalVoters);
                         progressBar.setValue(votes);
                         progressBar.setStringPainted(true);
+                        progressBar.setForeground(new Color(60, 179, 113)); // Sea green
+                        progressBar.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-                        candidatePanel.add(candidateLabel, BorderLayout.WEST);
-                        candidatePanel.add(progressBar, BorderLayout.CENTER);
+                        candidatePanel.add(candidateTitleLabel);
+                        candidatePanel.add(candidateResultLabel);
+                        candidatePanel.add(progressBar);
                         resultsPanel.add(candidatePanel);
                     });
 
@@ -884,29 +907,37 @@ public class ElectBudz {
             if (skippedVotes > 0) {
                 JLabel skippedLabel = new JLabel("Skipped Votes (No selection): " + skippedVotes + " votes");
                 skippedLabel.setFont(new Font("Arial", Font.ITALIC, 14));
-                skippedLabel.setForeground(Color.GRAY); // Gray color for skipped votes
+                skippedLabel.setForeground(Color.GRAY);
+                skippedLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
                 resultsPanel.add(skippedLabel);
             }
         });
 
-        // Close and Main Menu buttons
+        // Buttons with improved design
         JButton closeButton = new JButton("Close");
+        closeButton.setBackground(new Color(255, 69, 0)); // Red button
+        closeButton.setForeground(Color.WHITE);
+        closeButton.setFocusPainted(false);
         closeButton.addActionListener(e -> resultsFrame.dispose());
 
         JButton mainMenuButton = new JButton("Go to Main Menu");
+        mainMenuButton.setBackground(new Color(30, 144, 255)); // Dodger blue button
+        mainMenuButton.setForeground(Color.WHITE);
+        mainMenuButton.setFocusPainted(false);
         mainMenuButton.addActionListener(e -> {
             resultsFrame.dispose();
             showAdminVoterSelectionScreen(); // Return to the main menu
         });
 
-        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 15, 10));
+        buttonPanel.setBackground(Color.WHITE);
         buttonPanel.add(mainMenuButton);
         buttonPanel.add(closeButton);
         resultsFrame.add(buttonPanel, BorderLayout.SOUTH);
 
         resultsFrame.setLocationRelativeTo(null);
         resultsFrame.setVisible(true);
-    } // HANGGANG D2 LANG KUPAL
+    }
 
     // Method for displaying Admin options only if results are available
     private static void showAdminOptionsWithResults() {
