@@ -62,6 +62,21 @@ public class ElectBudz {
         ImageIcon icon = new ImageIcon(iconPath);
         selectionFrame.setIconImage(icon.getImage());
 
+        // Load the image
+        String imagePath = "C:/Users/erich/OneDrive/Documents/NetBeansProjects/ElectBudz/src/main/java/com/mycompany/electbudz/ElectBudz Logo/App logo.png"; // Update with your image path
+        ImageIcon imageIcon = new ImageIcon(imagePath);
+
+        // Create a JLabel to hold the image
+        JLabel imageLabel = new JLabel(imageIcon);
+        imageLabel.setHorizontalAlignment(SwingConstants.CENTER); // Center the image
+
+        // Add the label to the frame
+        selectionFrame.getContentPane().add(imageLabel, BorderLayout.NORTH);
+
+        // Display the frame
+        selectionFrame.setLocationRelativeTo(null); // Center the frame on the screen
+        selectionFrame.setVisible(true);
+
         // Title Label at the Top
         JLabel promptLabel = new JLabel("Welcome to ElectBudz!", SwingConstants.CENTER);
         promptLabel.setFont(new Font("Segoe UI", Font.BOLD, 24));  // Bold Title
@@ -323,8 +338,8 @@ public class ElectBudz {
             } else {
                 JOptionPane.showMessageDialog(adminOptionFrame,
                         "<html><div style='text-align: center;'>"
-                        + "<span style='color: #28A745; font-size: 14px; font-weight: bold;'>Election is starting...</span><br>"
-                        + "<span style='font-size: 12px;'>Voters can now proceed to vote!</span>"
+                        + "<span style='color: #28A745;'>Election is starting...</span><br>"
+                        + "Voters can now proceed to vote!"
                         + "</div></html>",
                         "Election Started",
                         JOptionPane.INFORMATION_MESSAGE);
@@ -633,7 +648,7 @@ public class ElectBudz {
                 } else {
                     // Use custom alert for success with HTML formatting
                     JOptionPane.showMessageDialog(voterCountFrame, "<html><div style='text-align: center;'>"
-                            + "<span style='color: #28A745; font-size: 14px;'>Voter count set successfully.</span>"
+                            + "<span style='color: #28A745;'>Voter count set successfully.</span>"
                             + "</div></html>", "Success", JOptionPane.INFORMATION_MESSAGE);
                     voterCountFrame.dispose();  // Close the current frame
                     showAdminOptionSelectionScreen();  // Show the next screen (admin options)
@@ -698,15 +713,6 @@ public class ElectBudz {
                         .sorted() // Sort candidate names alphabetically
                         .forEach(candidate -> {
                             JCheckBox checkBox = new JCheckBox(candidate);
-
-                            // Increase font size for better visibility
-                            checkBox.setFont(new Font("Arial", Font.PLAIN, 18)); // Adjust font size as needed
-
-                            // Set preferred size for the checkbox
-                            checkBox.setPreferredSize(new Dimension(200, 30)); // Adjust dimensions as needed
-
-                            // Optionally, add some padding
-                            checkBox.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
 
                             // logic for allowing unchecking
                             if (position.equals("Mayor") || position.equals("Vice Mayor") || position.equals("Governor") || position.equals("Vice Governor")) {

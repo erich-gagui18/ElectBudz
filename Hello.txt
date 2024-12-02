@@ -1,14 +1,15 @@
+
 ElectBudz Fix/Suggestions:
 
 Frontend:
- - Logo at the right screen (Sid)
+ - Logo at the right screen (Erich)
  - Put right alignment for Manage Candidates' (Position name)
  - Modify Alert Messages (Make it Consistent)
      - Make the colored messages bigger
 
  - votingScreen (JM) should be 2 columns where it has:
    - Visible Text (Palakihin)
-   - Modified Check Boxes
+  
    - Background color (like at the results screen)
 
  - Modify Election Results (SID)
