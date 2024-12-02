@@ -323,8 +323,8 @@ public class ElectBudz {
             } else {
                 JOptionPane.showMessageDialog(adminOptionFrame,
                         "<html><div style='text-align: center;'>"
-                        + "<span style='color: #28A745;'>Election is starting...</span><br>"
-                        + "Voters can now proceed to vote!"
+                        + "<span style='color: #28A745; font-size: 14px; font-weight: bold;'>Election is starting...</span><br>"
+                        + "<span style='font-size: 12px;'>Voters can now proceed to vote!</span>"
                         + "</div></html>",
                         "Election Started",
                         JOptionPane.INFORMATION_MESSAGE);
@@ -633,7 +633,7 @@ public class ElectBudz {
                 } else {
                     // Use custom alert for success with HTML formatting
                     JOptionPane.showMessageDialog(voterCountFrame, "<html><div style='text-align: center;'>"
-                            + "<span style='color: #28A745;'>Voter count set successfully.</span>"
+                            + "<span style='color: #28A745; font-size: 14px;'>Voter count set successfully.</span>"
                             + "</div></html>", "Success", JOptionPane.INFORMATION_MESSAGE);
                     voterCountFrame.dispose();  // Close the current frame
                     showAdminOptionSelectionScreen();  // Show the next screen (admin options)
@@ -698,6 +698,15 @@ public class ElectBudz {
                         .sorted() // Sort candidate names alphabetically
                         .forEach(candidate -> {
                             JCheckBox checkBox = new JCheckBox(candidate);
+
+                            // Increase font size for better visibility
+                            checkBox.setFont(new Font("Arial", Font.PLAIN, 18)); // Adjust font size as needed
+
+                            // Set preferred size for the checkbox
+                            checkBox.setPreferredSize(new Dimension(200, 30)); // Adjust dimensions as needed
+
+                            // Optionally, add some padding
+                            checkBox.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
 
                             // logic for allowing unchecking
                             if (position.equals("Mayor") || position.equals("Vice Mayor") || position.equals("Governor") || position.equals("Vice Governor")) {
