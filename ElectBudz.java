@@ -318,11 +318,13 @@ public class ElectBudz {
             } else {
                 JOptionPane.showMessageDialog(adminOptionFrame,
                         "<html><div style='text-align: center;'>"
-                        + "<span style='color: #28A745;'>Election is starting...</span>"
-                        + "<br>Voters can now proceed to vote!</div>"
-                        + "</html>", "Election Started", JOptionPane.INFORMATION_MESSAGE);
-                adminOptionFrame.dispose();
-                showAdminVoterSelectionScreen();
+                        + "<span style='color: #28A745; font-size: 16px;'>Election is starting...</span><br>"
+                        + "<span style='font-size: 14px;'>Voters can now proceed to vote!</span>"
+                        + "</div></html>",
+                        "Election Started",
+                        JOptionPane.INFORMATION_MESSAGE);
+                adminOptionFrame.dispose(); // Close the current frame
+                showAdminVoterSelectionScreen(); // Show the voter selection screen
             }
         });
 
