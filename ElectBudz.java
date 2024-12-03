@@ -676,10 +676,11 @@ public class ElectBudz {
             JFrame votingFrame = new JFrame("ElectBudz - Voting " + (currentVoter + 1));
             votingFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             votingFrame.setSize(1000, 700);
+
             // Main panel to hold all components
             JPanel mainPanel = new JPanel();
             mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
-            mainPanel.setBackground(new Color(240, 240, 240));  // Light background for better contrast
+            mainPanel.setBackground(new Color(240, 240, 240)); // Light background for better contrast
 
             // Set the application icon
             String iconPath = "C:/Users/erich/OneDrive/Documents/NetBeansProjects/ElectBudz/src/main/java/com/mycompany/electbudz/ElectBudz Logo/Elect Budz Logo.png";
@@ -689,9 +690,9 @@ public class ElectBudz {
             // Title
             JLabel promptLabel = new JLabel("Voter " + (currentVoter + 1) + ": Select your candidates", SwingConstants.CENTER);
             promptLabel.setFont(new Font("Arial", Font.BOLD, 18));
-            promptLabel.setForeground(new Color(0, 102, 204));  // Blue color for the title
+            promptLabel.setForeground(new Color(0, 102, 204)); // Blue color for the title
             promptLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-            promptLabel.setBorder(BorderFactory.createEmptyBorder(20, 0, 20, 0));  // Padding
+            promptLabel.setBorder(BorderFactory.createEmptyBorder(20, 0, 20, 0)); // Padding
             mainPanel.add(promptLabel);
 
             // Store the selected candidates for each position
@@ -701,7 +702,7 @@ public class ElectBudz {
                 // Add a label for the position
                 JLabel positionLabel = new JLabel(position, SwingConstants.CENTER);
                 positionLabel.setFont(new Font("Arial", Font.BOLD, 14));
-                positionLabel.setForeground(new Color(70, 130, 180));  // SteelBlue for positions
+                positionLabel.setForeground(new Color(70, 130, 180)); // SteelBlue for positions
                 positionLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
                 positionLabel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
                 mainPanel.add(positionLabel);
@@ -714,7 +715,7 @@ public class ElectBudz {
                         .forEach(candidate -> {
                             JCheckBox checkBox = new JCheckBox(candidate);
 
-                            // logic for allowing unchecking
+                            // Logic for allowing unchecking
                             if (position.equals("Mayor") || position.equals("Vice Mayor") || position.equals("Governor") || position.equals("Vice Governor")) {
                                 checkBox.addItemListener(e -> {
                                     if (e.getStateChange() == ItemEvent.SELECTED) {
@@ -738,7 +739,7 @@ public class ElectBudz {
             JButton submitButton = new JButton("Submit Votes");
             submitButton.setFont(new Font("Arial", Font.BOLD, 16));
             submitButton.setForeground(Color.WHITE);
-            submitButton.setBackground(new Color(34, 139, 34));  // Green color for submit button
+            submitButton.setBackground(new Color(34, 139, 34)); // Green color for submit button
             submitButton.setFocusPainted(false);
             submitButton.setPreferredSize(new Dimension(150, 40));
             submitButton.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -758,22 +759,22 @@ public class ElectBudz {
                         }
                     });
 
-                    int maxVotes = switch (position) {
-                        case "Governor" ->
-                            1;
-                        case "Vice Governor" ->
-                            1;
-                        case "Provincial Board Member" ->
-                            2;
-                        case "Mayor" ->
-                            1;
-                        case "Vice Mayor" ->
-                            1;
-                        case "City/Town Councilor" ->
-                            10;
-                        default ->
-                            Integer.MAX_VALUE; // Default: No limit
-                    };
+                    int maxVotes;
+                    if (position.equals("Governor")) {
+                        maxVotes = 1;
+                    } else if (position.equals("Vice Governor")) {
+                        maxVotes = 1;
+                    } else if (position.equals("Provincial Board Member")) {
+                        maxVotes = 2;
+                    } else if (position.equals("Mayor")) {
+                        maxVotes = 1;
+                    } else if (position.equals("Vice Mayor")) {
+                        maxVotes = 1;
+                    } else if (position.equals("City/Town Councilor")) {
+                        maxVotes = 10;
+                    } else {
+                        maxVotes = Integer.MAX_VALUE; // Default: No limit
+                    }
 
                     if (selectedCandidates.size() > maxVotes) {
                         JOptionPane.showMessageDialog(
@@ -788,7 +789,6 @@ public class ElectBudz {
                         );
                         validVotes = false;
                         break;
-
                     }
                     votes.put(position, selectedCandidates);
                 }
