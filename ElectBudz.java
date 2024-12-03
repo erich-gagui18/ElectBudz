@@ -81,7 +81,7 @@ public class ElectBudz {
 
         // Add title label
         JLabel promptLabel = new JLabel("Welcome to ElectBudz!", SwingConstants.CENTER);
-        promptLabel.setFont(new Font("Segoe UI", Font.BOLD, 36)); // Bold title
+        promptLabel.setFont(new Font("Segoe UI", Font.BOLD, 32)); // Bold title
         promptLabel.setForeground(Color.BLACK);
         promptLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
@@ -101,7 +101,7 @@ public class ElectBudz {
                         //Alert design
                         "<html><div style='text-align: center;'>"
                         + "<span style='color: #BF0D3E; font-size: 14px;'>Election setup incomplete!</span><br>"
-                        + "Please ask the admin to add candidates and set the voter count."
+                        + "Please ask the admin to start the election."
                         + "</div></html>",
                         "Setup Incomplete",
                         JOptionPane.WARNING_MESSAGE);
@@ -123,7 +123,7 @@ public class ElectBudz {
         // Add components to the main panel in order
         mainPanel.add(Box.createVerticalStrut(40)); // Spacing
         mainPanel.add(promptLabel);
-        mainPanel.add(Box.createVerticalStrut(5)); // Spacing
+        mainPanel.add(Box.createVerticalStrut(20)); // Spacing
         mainPanel.add(imageLabel);
         mainPanel.add(Box.createVerticalStrut(0)); // Spacing
         mainPanel.add(voterButton);
@@ -197,12 +197,12 @@ public class ElectBudz {
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10));
         buttonPanel.setBackground(new Color(250, 250, 250));
         JButton okButton = new JButton("OK");
-        okButton.setBackground(new Color(0, 123, 255));
+        okButton.setBackground(Color.decode("#0032A0"));
         okButton.setForeground(Color.WHITE);
         okButton.setFont(new Font("Segoe UI", Font.BOLD, 14));
         okButton.addActionListener(e -> checkPassword(passwordDialog, passwordField));
         JButton cancelButton = new JButton("Cancel");
-        cancelButton.setBackground(new Color(220, 53, 69));
+        cancelButton.setBackground(Color.decode("#BF0D3E"));
         cancelButton.setForeground(Color.WHITE);
         cancelButton.setFont(new Font("Segoe UI", Font.BOLD, 14));
         cancelButton.addActionListener(e -> {
@@ -364,7 +364,7 @@ public class ElectBudz {
         return button;
     }
 
-    // method for showAdminCandidateScreen
+    // Method for showAdminCandidateScreen
     private static void showAdminCandidateScreen() {
         JFrame adminCandidateFrame = new JFrame("ElectBudz - Manage Candidates");
         adminCandidateFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -378,7 +378,7 @@ public class ElectBudz {
 
         // Input Panel: Add candidates
         JPanel inputPanel = new JPanel(new GridLayout(5, 1, 10, 10));
-        inputPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));  // Add padding around the input panel
+        inputPanel.setBorder(BorderFactory.createEmptyBorder(50, 50, 50, 50));  // Add padding around the input panel
 
         JLabel positionPromptLabel = new JLabel("Select position for the candidate:", SwingConstants.CENTER);
         inputPanel.add(positionPromptLabel);
@@ -397,7 +397,7 @@ public class ElectBudz {
         inputPanel.add(addCandidateButton);
 
         JButton doneButton = new JButton("Done");
-        doneButton.setBackground(new Color(200, 50, 50));  // Red background for "Done"
+        doneButton.setBackground(Color.decode("#BF0D3E"));  // Red background
         doneButton.setForeground(Color.WHITE);
         doneButton.setFocusPainted(false);
         inputPanel.add(doneButton);
@@ -405,14 +405,15 @@ public class ElectBudz {
         adminCandidateFrame.add(inputPanel, BorderLayout.WEST);
 
         // Right Panel: Display Candidates
-        JPanel displayPanel = new JPanel();
+        JPanel displayPanel = new JPanel(new GridLayout(5, 1, 10, 10));
+
         displayPanel.setLayout(new BoxLayout(displayPanel, BoxLayout.Y_AXIS));
         JScrollPane scrollPane = new JScrollPane(displayPanel);
         adminCandidateFrame.add(scrollPane, BorderLayout.CENTER);
 
         // Refresh Button on the top-right
         JButton refreshButton = new JButton("Refresh");
-        refreshButton.setBackground(new Color(70, 130, 180));  // SteelBlue background
+        refreshButton.setBackground(Color.decode("#0032A0"));  // Blue background
         refreshButton.setForeground(Color.WHITE);
         refreshButton.setFocusPainted(false);
 
@@ -429,10 +430,16 @@ public class ElectBudz {
                 // Iterate over position and candidate map (initializeDefaultCandidates)
                 positionVoteCount.forEach((position, candidates) -> {
                     // Add a label for the position
+                    JPanel positionPanel = new JPanel(new BorderLayout());
+                    positionPanel.setBackground(new Color(245, 245, 245)); // Light gray
+
                     JLabel positionLabel = new JLabel(position);
-                    positionLabel.setFont(new Font("Arial", Font.BOLD, 16));
+                    positionLabel.setFont(new Font("Segoe UI", Font.BOLD, 16));
                     positionLabel.setForeground(new Color(70, 130, 180)); // SteelBlue color
-                    displayPanel.add(positionLabel);
+                    positionLabel.setHorizontalAlignment(SwingConstants.CENTER); // Align text to the right
+
+                    positionPanel.add(positionLabel, BorderLayout.CENTER); // Position the label to the left
+                    displayPanel.add(positionPanel);
 
                     // Sort candidates alphabetically
                     candidates.keySet().stream()
@@ -444,13 +451,13 @@ public class ElectBudz {
 
                                 // Add candidate label
                                 JLabel candidateLabel = new JLabel(candidate);
-                                candidateLabel.setFont(new Font("Arial", Font.PLAIN, 14));
+                                candidateLabel.setFont(new Font("Segoe UI", Font.PLAIN, 14));
                                 candidateLabel.setPreferredSize(new Dimension(200, 20));
                                 candidatePanel.add(candidateLabel);
 
                                 // Edit Button
                                 JButton editButton = new JButton("Edit");
-                                editButton.setBackground(new Color(255, 215, 0)); // Gold
+                                editButton.setBackground(Color.decode("#FED141"));  // Yellow background
                                 editButton.setForeground(Color.BLACK);
                                 editButton.setFocusPainted(false);
                                 editButton.addActionListener(e -> {
@@ -683,6 +690,11 @@ public class ElectBudz {
             JFrame votingFrame = new JFrame("ElectBudz - Voting " + (currentVoter + 1));
             votingFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             votingFrame.setSize(1000, 800);
+
+            // Set the application icon
+            String iconPath = "C:/Users/erich/OneDrive/Documents/NetBeansProjects/ElectBudz/src/main/java/com/mycompany/electbudz/ElectBudz Logo/Elect Budz Logo.png";
+            ImageIcon icon = new ImageIcon(iconPath);
+            votingFrame.setIconImage(icon.getImage());
 
             // Main panel to hold all components
             JPanel mainPanel = new JPanel();
