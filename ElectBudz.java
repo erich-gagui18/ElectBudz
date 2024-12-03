@@ -4,6 +4,7 @@
 package com.mycompany.electbudz;
 
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.util.LinkedHashMap;
@@ -32,7 +33,7 @@ public class ElectBudz {
         positionVoteCount.put("City/Town Councilor", createCandidateList(
                 "Alice Green", "Bob White", "Carol Black", "David Lee",
                 "Eve Harris", "Frank Adams", "Grace Clark", "Hank Turner",
-                "Ivy Wilson", "Jack Morgan"));
+                "Ivy Wilson", "Jack Morgan", "Mendez, Burat"));
     }
 
     // Utility method to create candidate lists with vote count initialized to 0
@@ -377,31 +378,52 @@ public class ElectBudz {
         adminCandidateFrame.setIconImage(icon.getImage());
 
         // Input Panel: Add candidates
-        JPanel inputPanel = new JPanel(new GridLayout(5, 1, 10, 10));
-        inputPanel.setBorder(BorderFactory.createEmptyBorder(50, 50, 50, 50));  // Add padding around the input panel
+        JPanel inputPanel = new JPanel();
+        inputPanel.setLayout(new BoxLayout(inputPanel, BoxLayout.Y_AXIS)); // Arrange components vertically
+        inputPanel.setBorder(BorderFactory.createEmptyBorder(150, 10, 150, 10)); // Add padding around the panel
 
+        // Label for the combo box
         JLabel positionPromptLabel = new JLabel("Select position for the candidate:", SwingConstants.CENTER);
+        positionPromptLabel.setAlignmentX(Component.CENTER_ALIGNMENT); // Center align the label
         inputPanel.add(positionPromptLabel);
 
+        // Combo box with custom size
         JComboBox<String> positionComboBox = new JComboBox<>(positions);
+        positionComboBox.setMaximumSize(new Dimension(300, 30)); // Set a fixed size for the combo box
+        positionComboBox.setAlignmentX(Component.CENTER_ALIGNMENT); // Center align the combo box
+        inputPanel.add(Box.createRigidArea(new Dimension(0, 10))); // Add spacing
         inputPanel.add(positionComboBox);
 
+        // Candidate input field
         JTextField candidateField = new JTextField();
-        candidateField.setHorizontalAlignment(SwingConstants.CENTER);
+        candidateField.setMaximumSize(new Dimension(300, 30)); // Set max size for the text field
+        candidateField.setAlignmentX(Component.CENTER_ALIGNMENT); // Center align
+        inputPanel.add(Box.createRigidArea(new Dimension(0, 10))); // Add spacing
         inputPanel.add(candidateField);
 
+        // Add Candidate button with fixed size
         JButton addCandidateButton = new JButton("Add Candidate");
-        addCandidateButton.setBackground(new Color(34, 139, 34));  // Green background
+        addCandidateButton.setPreferredSize(new Dimension(150, 50)); // Set the fixed size for the button
+        addCandidateButton.setMaximumSize(new Dimension(150, 50));
+        addCandidateButton.setBackground(new Color(34, 139, 34)); // Green background
         addCandidateButton.setForeground(Color.WHITE);
-        addCandidateButton.setFocusPainted(false);  // Remove focus border
+        addCandidateButton.setFocusPainted(false);
+        addCandidateButton.setAlignmentX(Component.CENTER_ALIGNMENT); // Center align the button
+        inputPanel.add(Box.createRigidArea(new Dimension(0, 20))); // Add spacing
         inputPanel.add(addCandidateButton);
 
+        // Done button with fixed size
         JButton doneButton = new JButton("Done");
-        doneButton.setBackground(Color.decode("#BF0D3E"));  // Red background
+        doneButton.setPreferredSize(new Dimension(150, 50)); // Set the fixed size for the button
+        doneButton.setMaximumSize(new Dimension(150, 50));
+        doneButton.setBackground(new Color(200, 50, 50)); // Red background
         doneButton.setForeground(Color.WHITE);
         doneButton.setFocusPainted(false);
+        doneButton.setAlignmentX(Component.CENTER_ALIGNMENT); // Center align the button
+        inputPanel.add(Box.createRigidArea(new Dimension(0, 10))); // Add spacing
         inputPanel.add(doneButton);
 
+        // Add the input panel to the frame
         adminCandidateFrame.add(inputPanel, BorderLayout.WEST);
 
         // Right Panel: Display Candidates
@@ -429,17 +451,28 @@ public class ElectBudz {
 
                 // Iterate over position and candidate map (initializeDefaultCandidates)
                 positionVoteCount.forEach((position, candidates) -> {
-                    // Add a label for the position
+                    // Create a panel for the entire group (position and candidates)
+                    JPanel groupPanel = new JPanel(new BorderLayout());
+                    groupPanel.setBorder(BorderFactory.createLineBorder(new Color(192, 192, 192), 1)); // Light gray border
+                    groupPanel.setBackground(Color.WHITE); // Match background
+
+                    // Create the position panel with a bottom border
                     JPanel positionPanel = new JPanel(new BorderLayout());
-                    positionPanel.setBackground(new Color(245, 245, 245)); // Light gray
+                    positionPanel.setBackground(new Color(245, 245, 245)); // Light gray background
+                    positionPanel.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, new Color(192, 192, 192))); // Bottom border
 
                     JLabel positionLabel = new JLabel(position);
                     positionLabel.setFont(new Font("Segoe UI", Font.BOLD, 16));
                     positionLabel.setForeground(new Color(70, 130, 180)); // SteelBlue color
-                    positionLabel.setHorizontalAlignment(SwingConstants.CENTER); // Align text to the right
+                    positionLabel.setHorizontalAlignment(SwingConstants.CENTER); // Align text to the center
 
-                    positionPanel.add(positionLabel, BorderLayout.CENTER); // Position the label to the left
-                    displayPanel.add(positionPanel);
+                    positionPanel.add(positionLabel, BorderLayout.CENTER);
+                    groupPanel.add(positionPanel, BorderLayout.NORTH); // Add position panel to the top of the group
+
+                    // Create a panel for the candidates
+                    JPanel candidatesPanel = new JPanel();
+                    candidatesPanel.setLayout(new BoxLayout(candidatesPanel, BoxLayout.Y_AXIS)); // Vertical list
+                    candidatesPanel.setBackground(Color.WHITE);
 
                     // Sort candidates alphabetically
                     candidates.keySet().stream()
@@ -447,7 +480,8 @@ public class ElectBudz {
                             .forEach(candidate -> {
                                 // Create a panel for the candidate entry
                                 JPanel candidatePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-                                candidatePanel.setBackground(new Color(245, 245, 245)); // Light gray
+                                candidatePanel.setBackground(new Color(245, 245, 245)); // Light gray background
+                                candidatePanel.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, new Color(192, 192, 192))); // Bottom border for separation
 
                                 // Add candidate label
                                 JLabel candidateLabel = new JLabel(candidate);
@@ -457,7 +491,7 @@ public class ElectBudz {
 
                                 // Edit Button
                                 JButton editButton = new JButton("Edit");
-                                editButton.setBackground(Color.decode("#FED141"));  // Yellow background
+                                editButton.setBackground(Color.decode("#FED141")); // Yellow background
                                 editButton.setForeground(Color.BLACK);
                                 editButton.setFocusPainted(false);
                                 editButton.addActionListener(e -> {
@@ -524,9 +558,15 @@ public class ElectBudz {
                                 candidatePanel.add(editButton);
                                 candidatePanel.add(deleteButton);
 
-                                // Add the candidate panel to the display panel
-                                displayPanel.add(candidatePanel);
+                                // Add the candidate panel to the candidatesPanel
+                                candidatesPanel.add(candidatePanel);
                             });
+
+                    // Add the candidates panel to the group panel
+                    groupPanel.add(candidatesPanel, BorderLayout.CENTER);
+
+                    // Add the group panel to the display panel
+                    displayPanel.add(groupPanel);
                 });
 
                 // Refreshes the UI
@@ -640,7 +680,7 @@ public class ElectBudz {
 
         // Set Button
         JButton setButton = new JButton("Set Voter Count");
-        setButton.setBackground(new Color(0, 123, 255));
+        setButton.setBackground(Color.decode("#0032A0"));  // Blue background
         setButton.setForeground(Color.WHITE);
         setButton.setFont(new Font("Segoe UI", Font.BOLD, 14));
         setButton.setFocusPainted(false);
@@ -747,16 +787,23 @@ public class ElectBudz {
                 positionPanel.add(positionLabel);
 
                 int maxVotes;
-                    if (position.equals("Governor") || position.equals("Vice Governor")
-                            || position.equals("Mayor") || position.equals("Vice Mayor") || (position.equals("Provincial Board Member"))) {
-                        maxVotes = 1;
-                    } else if (position.equals("City/Town Councilor")) {
-                        maxVotes = 10;
-                    } else {
-                        maxVotes = Integer.MAX_VALUE; // Default: No limit
-                    }
+                if (position.equals("Governor") || position.equals("Vice Governor")
+                        || position.equals("Mayor") || position.equals("Vice Mayor") || (position.equals("Provincial Board Member"))) {
+                    maxVotes = 1;
+                } else if (position.equals("City/Town Councilor")) {
+                    maxVotes = 10;
+                } else {
+                    maxVotes = Integer.MAX_VALUE; // Default: No limit
+                }
 
-                JLabel indicatorLabel = new JLabel("Choose " + maxVotes);
+                JLabel indicatorLabel;
+                if (position.equals("City/Town Councilor")) {
+                    // Displayed only for City/Town Councilor
+                    indicatorLabel = new JLabel("Choose maximum of " + maxVotes + " City/Town Councilors");
+                } else {
+                    // Displayed for all other positions
+                    indicatorLabel = new JLabel("Choose " + maxVotes + " " + position);
+                }
                 indicatorLabel.setFont(new Font("Segoe UI", Font.PLAIN, 12)); // Smaller font for indicator
                 indicatorLabel.setForeground(new Color(100, 100, 100)); // Gray color for subtle text
                 positionPanel.add(indicatorLabel);
@@ -774,7 +821,7 @@ public class ElectBudz {
 
                             // Allow only one selection for specific positions
                             if (position.equals("Governor") || position.equals("Vice Governor")
-                                    || position.equals("Mayor") || position.equals("Vice Mayor")|| position.equals("Provincial Board Member")) {
+                                    || position.equals("Mayor") || position.equals("Vice Mayor") || position.equals("Provincial Board Member")) {
                                 checkBox.addItemListener(e -> {
                                     if (e.getStateChange() == ItemEvent.SELECTED) {
                                         checkBoxes.forEach((otherCandidate, otherCheckBox) -> {
@@ -979,12 +1026,43 @@ public class ElectBudz {
                 progressBar.setValue(votes);
                 progressBar.setStringPainted(true);
 
-                // Set progress bar color to yellow if there's a tie; otherwise, sea green
-                if (isTie && votes == sortedCandidates.get(0).getValue()) {
-                    progressBar.setForeground(new Color(255, 223, 0)); // Yellow
+                // Set progress bar color logic (Winner, Tie, Loser)
+                if (position.equals("Board Members")) {
+                    // Check if the candidate is among the top 2
+                    int topVotes = sortedCandidates.get(0).getValue();
+                    int secondTopVotes = sortedCandidates.size() > 1 ? sortedCandidates.get(1).getValue() : -1;
+
+                    if (votes == topVotes || votes == secondTopVotes) {
+                        // Top 1 or Top 2 winners for Board Members
+                        progressBar.setForeground(new Color(60, 179, 113)); // Green
+                    } else {
+                        // Losing candidates
+                        progressBar.setForeground(new Color(220, 20, 60)); // Crimson red
+                    }
+                } else if (position.equals("City/Town Councilor")) {
+                    // Top 10 winners logic
+                    int index = sortedCandidates.indexOf(entry);
+                    if (index >= 0 && index < 10) {
+                        // Top 10 winners for City/Town Councilor
+                        progressBar.setForeground(new Color(60, 179, 113)); // Green
+                    } else {
+                        // Losing candidates
+                        progressBar.setForeground(new Color(220, 20, 60)); // Crimson red
+                    }
                 } else {
-                    progressBar.setForeground(new Color(60, 179, 113)); // Sea green
+                    // General case for other positions
+                    int topVotes = sortedCandidates.get(0).getValue();
+                    boolean isTopCandidate = votes == topVotes;
+
+                    if (isTopCandidate) {
+                        // Top candidate (or tied for top)
+                        progressBar.setForeground(isTie ? new Color(255, 223, 0) : new Color(60, 179, 113)); // Yellow if tie, green otherwise
+                    } else {
+                        // Losing candidates
+                        progressBar.setForeground(new Color(220, 20, 60)); // Crimson red
+                    }
                 }
+
                 progressBar.setAlignmentX(Component.CENTER_ALIGNMENT);
 
                 candidatePanel.add(candidateTitleLabel);
@@ -1028,8 +1106,8 @@ public class ElectBudz {
         resultsFrame.setLocationRelativeTo(null);
         resultsFrame.setVisible(true);
     }
-
     // Method for displaying Admin options only if results are available
+
     private static void showAdminOptionsWithResults() {
         if (positionVoteCount.isEmpty()) {
             JOptionPane.showMessageDialog(null, "No results available. Start an election first!");
