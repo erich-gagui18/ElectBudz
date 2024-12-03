@@ -94,9 +94,11 @@ public class ElectBudz {
         voterButton.setBorder(BorderFactory.createEmptyBorder(15, 30, 15, 30));
         voterButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
+        // if-else for voting
         voterButton.addActionListener(e -> {
             if (positionVoteCount.isEmpty() || totalVoters == 0) {
                 JOptionPane.showMessageDialog(selectionFrame,
+                        //Alert design
                         "<html><div style='text-align: center;'>"
                         + "<span style='color: #BF0D3E; font-size: 14px;'>Election setup incomplete!</span><br>"
                         + "Please ask the admin to add candidates and set the voter count."
@@ -288,11 +290,15 @@ public class ElectBudz {
         setVoterCountButton.addActionListener(e -> {
             if (positionVoteCount.isEmpty()) {
                 JOptionPane.showMessageDialog(adminOptionFrame,
+                        //Design for Alert message
                         "<html><div style='text-align: center;'>"
-                        + "<span style='color: #BF0D3E;'>No candidates added!</span>"
-                        + "<br>Please add at least one candidate before setting the voter count.</div>"
-                        + "</html>", "Error", JOptionPane.ERROR_MESSAGE);
+                        + "<span style='color: #BF0D3E;'>No candidates added!</span><br>"
+                        + "Please add at least one candidate before setting the voter count."
+                        + "</div></html>",
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
             } else {
+
                 adminOptionFrame.dispose();
                 showAdminVoterCountScreen();
             }
@@ -302,10 +308,13 @@ public class ElectBudz {
         startElectionButton.addActionListener(e -> {
             if (totalVoters == 0 || positionVoteCount.isEmpty()) {
                 JOptionPane.showMessageDialog(adminOptionFrame,
+                        // Design alert message
                         "<html><div style='text-align: center;'>"
-                        + "<span style='color: #BF0D3E;'>Election setup incomplete!</span>"
-                        + "<br>Ensure candidates are added and voter count is set before starting the election.</div>"
-                        + "</html>", "Error", JOptionPane.ERROR_MESSAGE);
+                        + "<span style='color: #BF0D3E;'>Election setup incomplete!</span><br>"
+                        + "Ensure candidates are added and voter count is set before starting the election."
+                        + "</div></html>",
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
             } else {
                 JOptionPane.showMessageDialog(adminOptionFrame,
                         "<html><div style='text-align: center;'>"
@@ -319,7 +328,7 @@ public class ElectBudz {
 
         // Layout constraints
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(15, 15, 15, 15);
+        gbc.insets = new Insets(0, 15, 15, 15);
         gbc.gridx = 0;
         gbc.anchor = GridBagConstraints.CENTER;
 
@@ -640,12 +649,12 @@ public class ElectBudz {
                 if (totalVoters <= 0) {  // Ensure that the number of voters is positive
                     // Use custom alert for invalid number with HTML formatting
                     JOptionPane.showMessageDialog(voterCountFrame, "<html><div style='text-align: center;'>"
-                            + "<span style='color: #D32F2F;'>Number of voters must be greater than zero.</span>"
+                            + "<span style='color: #D32F2F;font-size: 14px;'>Number of voters must be greater than zero.</span>"
                             + "</div></html>", "Error", JOptionPane.ERROR_MESSAGE);
                 } else {
                     // Use custom alert for success with HTML formatting
                     JOptionPane.showMessageDialog(voterCountFrame, "<html><div style='text-align: center;'>"
-                            + "<span style='color: #28A745;'>Voter count set successfully.</span>"
+                            + "<span style='color: #28A745;font-size: 14px;'>Voter count set successfully.</span>"
                             + "</div></html>", "Success", JOptionPane.INFORMATION_MESSAGE);
                     voterCountFrame.dispose();  // Close the current frame
                     showAdminOptionSelectionScreen();  // Show the next screen (admin options)
@@ -653,7 +662,7 @@ public class ElectBudz {
             } catch (NumberFormatException ex) {  // Handle invalid number format (non-numeric input)
                 // Use custom alert for invalid number format with HTML formatting
                 JOptionPane.showMessageDialog(voterCountFrame, "<html><div style='text-align: center;'>"
-                        + "<span style='color: #D32F2F;'>Invalid number format. Please enter a valid number.</span>"
+                        + "<span style='color: #D32F2F;font-size: 14px;'>Invalid number format. Please enter a valid number.</span>"
                         + "</div></html>", "Error", JOptionPane.ERROR_MESSAGE);
             }
         });
@@ -1073,6 +1082,7 @@ public class ElectBudz {
                 showAdminVoterSelectionScreen(); // Redirect to the main menu
             }
         });
+
         gbc.gridy = 2; // Place button at the third row
         adminFrame.add(newElectionButton, gbc);
 
