@@ -56,7 +56,7 @@ public class ElectBudz {
     private static void showAdminVoterSelectionScreen() {
         JFrame selectionFrame = new JFrame("ElectBudz - Main Menu");
         selectionFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        selectionFrame.setSize(1000, 700); // Increased size for better layout
+        selectionFrame.setSize(1000, 700); // Adjusted size for layout flexibility
         selectionFrame.setLayout(new BorderLayout());
         selectionFrame.getContentPane().setBackground(Color.WHITE);
 
@@ -65,44 +65,38 @@ public class ElectBudz {
         ImageIcon icon = new ImageIcon(iconPath);
         selectionFrame.setIconImage(icon.getImage());
 
-        // Load the image
-        String imagePath = "C:/Users/erich/OneDrive/Documents/NetBeansProjects/ElectBudz/src/main/java/com/mycompany/electbudz/ElectBudz Logo/App logo.png"; // Update with your image path
+        // Main Panel to Stack Components Vertically
+        JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+        mainPanel.setBackground(Color.WHITE);
+
+        // Load the image and resize it
+        String imagePath = "C:/Users/erich/OneDrive/Documents/NetBeansProjects/ElectBudz/src/main/java/com/mycompany/electbudz/ElectBudz Logo/App logo.png";
         ImageIcon imageIcon = new ImageIcon(imagePath);
+        Image img = imageIcon.getImage();
+        Image resizedImage = img.getScaledInstance(400, 400, Image.SCALE_SMOOTH); // Resizes the App logo image
+        ImageIcon resizedIcon = new ImageIcon(resizedImage);
+        JLabel imageLabel = new JLabel(resizedIcon);
+        imageLabel.setAlignmentX(Component.CENTER_ALIGNMENT); // Center align in BoxLayout
 
-        // Create a JLabel to hold the image
-        JLabel imageLabel = new JLabel(imageIcon);
-        imageLabel.setHorizontalAlignment(SwingConstants.CENTER); // Center the image
-
-        // Add the label to the frame
-        selectionFrame.getContentPane().add(imageLabel, BorderLayout.NORTH);
-
-        // Display the frame
-        selectionFrame.setLocationRelativeTo(null); // Center the frame on the screen
-        selectionFrame.setVisible(true);
-
-        // Title Label at the Top
+        // Add title label
         JLabel promptLabel = new JLabel("Welcome to ElectBudz!", SwingConstants.CENTER);
-        promptLabel.setFont(new Font("Segoe UI", Font.BOLD, 24));  // Bold Title
+        promptLabel.setFont(new Font("Segoe UI", Font.BOLD, 36)); // Bold title
         promptLabel.setForeground(Color.BLACK);
-        selectionFrame.add(promptLabel, BorderLayout.NORTH);
+        promptLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        // Center Panel for "Vote Now!" Button
-        JPanel centerPanel = new JPanel();
-        centerPanel.setBackground(Color.WHITE);
-        centerPanel.setLayout(new GridBagLayout()); // Center the button in the panel
-
+        // Add the "Vote Now!" button below the prompt
         JButton voterButton = new JButton("Vote Now!");
         voterButton.setBackground(Color.decode("#BF0D3E"));  // Red background
         voterButton.setForeground(Color.WHITE);
         voterButton.setFont(new Font("Segoe UI", Font.BOLD, 18)); // Larger font
         voterButton.setFocusPainted(false);
-        voterButton.setBorder(BorderFactory.createEmptyBorder(15, 30, 15, 30)); // Padding for size
+        voterButton.setBorder(BorderFactory.createEmptyBorder(15, 30, 15, 30));
+        voterButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        // if-else for voting
         voterButton.addActionListener(e -> {
             if (positionVoteCount.isEmpty() || totalVoters == 0) {
                 JOptionPane.showMessageDialog(selectionFrame,
-                        //Alert design
                         "<html><div style='text-align: center;'>"
                         + "<span style='color: #BF0D3E; font-size: 14px;'>Election setup incomplete!</span><br>"
                         + "Please ask the admin to add candidates and set the voter count."
@@ -123,27 +117,34 @@ public class ElectBudz {
                 showVotingScreen();
             }
         });
-        centerPanel.add(voterButton);
-        selectionFrame.add(centerPanel, BorderLayout.CENTER);
 
-        // Bottom-Right Panel for "Admin Panel" Button
-        JPanel bottomPanel = new JPanel(new BorderLayout());
+        // Add components to the main panel in order
+        mainPanel.add(Box.createVerticalStrut(40)); // Spacing
+        mainPanel.add(promptLabel);
+        mainPanel.add(Box.createVerticalStrut(5)); // Spacing
+        mainPanel.add(imageLabel);
+        mainPanel.add(Box.createVerticalStrut(0)); // Spacing
+        mainPanel.add(voterButton);
+
+        selectionFrame.add(mainPanel, BorderLayout.CENTER);
+
+        // Bottom Panel for "Admin Panel" Button
+        JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT)); // Align to bottom-right
         bottomPanel.setBackground(Color.WHITE);
 
         JButton adminButton = new JButton("Admin Panel");
         adminButton.setBackground(Color.decode("#0032A0"));  // Blue background
         adminButton.setForeground(Color.WHITE);
-        adminButton.setFont(new Font("Segoe UI", Font.BOLD, 14)); // Smaller font
+        adminButton.setFont(new Font("Segoe UI", Font.BOLD, 14));
         adminButton.setFocusPainted(false);
-        adminButton.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20)); // Padding for size
+        adminButton.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
 
-        // Triggers promptAdminPassword
         adminButton.addActionListener(e -> {
             selectionFrame.dispose();
             promptAdminPassword();
         });
 
-        bottomPanel.add(adminButton, BorderLayout.EAST);
+        bottomPanel.add(adminButton);
         selectionFrame.add(bottomPanel, BorderLayout.SOUTH);
 
         // Display the Frame
@@ -251,112 +252,105 @@ public class ElectBudz {
     private static void showAdminOptionSelectionScreen() {
         JFrame adminOptionFrame = new JFrame("ElectBudz - Admin Panel");
         adminOptionFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        adminOptionFrame.setSize(1000, 700);  // Adjusted size for larger buttons
-        adminOptionFrame.setLayout(new GridBagLayout());  // Use GridBagLayout for better control
-        adminOptionFrame.getContentPane().setBackground(Color.WHITE);  // Set white background
+        adminOptionFrame.setSize(1000, 700);
+        adminOptionFrame.setLayout(new GridBagLayout());
+        adminOptionFrame.getContentPane().setBackground(Color.WHITE);
 
         // Set the application icon
         String iconPath = "C:/Users/erich/OneDrive/Documents/NetBeansProjects/ElectBudz/src/main/java/com/mycompany/electbudz/ElectBudz Logo/Elect Budz Logo.png";
         ImageIcon icon = new ImageIcon(iconPath);
         adminOptionFrame.setIconImage(icon.getImage());
 
-        // Layout constraints for GridBagLayout
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(15, 15, 15, 15);  // Add spacing between components
-        gbc.fill = GridBagConstraints.HORIZONTAL; // Buttons will stretch horizontally
-        gbc.gridx = 0; // Single column layout
-        gbc.gridwidth = 1;
+        // Load and resize the image
+        String imagePath = "C:/Users/erich/OneDrive/Documents/NetBeansProjects/ElectBudz/src/main/java/com/mycompany/electbudz/ElectBudz Logo/Elect Budz Logo v.1.png";
+        ImageIcon imageIcon = new ImageIcon(imagePath);
+        Image img = imageIcon.getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH);
+        JLabel imageLabel = new JLabel(new ImageIcon(img));
 
-        // Title Label at the top
-        JLabel promptLabel = new JLabel("Admin Panel: Choose an option", SwingConstants.CENTER);
-        promptLabel.setFont(new Font("Segoe UI", Font.BOLD, 18)); // Set font style and size
-        promptLabel.setForeground(Color.BLACK); // Black font color for readability
-        gbc.gridy = 0; // Place label at the first row
-        adminOptionFrame.add(promptLabel, gbc);
+        // Title label
+        JLabel promptLabel = new JLabel("Admin Panel", SwingConstants.CENTER);
+        promptLabel.setFont(new Font("Segoe UI", Font.BOLD, 18));
+        promptLabel.setForeground(Color.BLACK);
+        
+        // Title label
+        JLabel promptOption = new JLabel("Choose an option:", SwingConstants.CENTER);
+        promptOption.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        promptOption.setForeground(Color.BLACK);
 
-        // Manage Candidates Button
-        JButton manageCandidatesButton = new JButton("Manage Candidates");
-        manageCandidatesButton.setBackground(Color.decode("#0032A0"));  // Blue background
-        manageCandidatesButton.setForeground(Color.WHITE);  // White text for contrast
-        manageCandidatesButton.setFont(new Font("Segoe UI", Font.BOLD, 16));  // Bold and readable text
-        manageCandidatesButton.setPreferredSize(new Dimension(300, 80));  // Adjust size for visibility
-        manageCandidatesButton.setFocusPainted(false);  // Remove the white focus box
-
-        // Action to navigate to the Manage Candidates screen
+        // Buttons
+        JButton manageCandidatesButton = createButton("Manage Candidates", "#0032A0", Color.WHITE);
         manageCandidatesButton.addActionListener(e -> {
-            adminOptionFrame.dispose(); // Close the current frame
-            showAdminCandidateScreen(); // Show the candidate management screen
+            adminOptionFrame.dispose();
+            showAdminCandidateScreen();
         });
 
-        gbc.gridy = 1; // Place button at the second row
-        adminOptionFrame.add(manageCandidatesButton, gbc);
-
-        // Set Voter Count Button
-        JButton setVoterCountButton = new JButton("Set Number of Voters");
-        setVoterCountButton.setBackground(Color.decode("#FED141"));  // Yellow background
-        setVoterCountButton.setForeground(Color.BLACK);  // Black text for contrast
-        setVoterCountButton.setFont(new Font("Segoe UI", Font.BOLD, 16));  // Bold and readable text
-        setVoterCountButton.setPreferredSize(new Dimension(300, 80));  // Adjust size for visibility
-        setVoterCountButton.setFocusPainted(false);  // Remove focus border
-
-        // Check if candidates exist before setting the voter count
+        JButton setVoterCountButton = createButton("Set Number of Voters", "#FED141", Color.BLACK);
         setVoterCountButton.addActionListener(e -> {
             if (positionVoteCount.isEmpty()) {
-                JOptionPane.showMessageDialog(adminOptionFrame,
-                        //Design for Alert message
+                JOptionPane.showMessageDialog(adminOptionFrame, 
                         "<html><div style='text-align: center;'>"
-                        + "<span style='color: #BF0D3E;'>No candidates added!</span><br>"
-                        + "Please add at least one candidate before setting the voter count."
-                        + "</div></html>",
-                        "Error",
-                        JOptionPane.ERROR_MESSAGE);
+                                + "<span style='color: #BF0D3E;'>No candidates added!</span>"
+                                + "<br>Please add at least one candidate before setting the voter count.</div>"
+                                + "</html>", "Error", JOptionPane.ERROR_MESSAGE);
             } else {
-                adminOptionFrame.dispose(); // Close the current frame
-                showAdminVoterCountScreen(); // Show the voter count setup screen
+                adminOptionFrame.dispose();
+                showAdminVoterCountScreen();
             }
         });
 
-        gbc.gridy = 2; // Place button at the third row
-        adminOptionFrame.add(setVoterCountButton, gbc);
-
-        // Start Election Button
-        JButton startElectionButton = new JButton("Start Election");
-        startElectionButton.setBackground(Color.decode("#BF0D3E"));  // Red background
-        startElectionButton.setForeground(Color.WHITE);  // White text for contrast
-        startElectionButton.setFont(new Font("Segoe UI", Font.BOLD, 16));  // Bold and readable text
-        startElectionButton.setPreferredSize(new Dimension(300, 80));  // Adjust size for visibility
-        startElectionButton.setFocusPainted(false);  // Remove focus border
-
-        // Check if election setup is complete before starting
+        JButton startElectionButton = createButton("Start Election!", "#BF0D3E", Color.WHITE);
         startElectionButton.addActionListener(e -> {
             if (totalVoters == 0 || positionVoteCount.isEmpty()) {
-                JOptionPane.showMessageDialog(adminOptionFrame,
-                        // Design alert message
+                JOptionPane.showMessageDialog(adminOptionFrame, 
                         "<html><div style='text-align: center;'>"
-                        + "<span style='color: #BF0D3E;'>Election setup incomplete!</span><br>"
-                        + "Ensure candidates are added and voter count is set before starting the election."
-                        + "</div></html>",
-                        "Error",
-                        JOptionPane.ERROR_MESSAGE);
+                        + "<span style='color: #BF0D3E;'>Election setup incomplete!</span>"
+                        + "<br>Ensure candidates are added and voter count is set before starting the election.</div>"
+                        + "</html>", "Error", JOptionPane.ERROR_MESSAGE);
             } else {
-                JOptionPane.showMessageDialog(adminOptionFrame,
+                JOptionPane.showMessageDialog(adminOptionFrame, 
                         "<html><div style='text-align: center;'>"
-                        + "<span style='color: #28A745;'>Election is starting...</span><br>"
-                        + "Voters can now proceed to vote!"
-                        + "</div></html>",
-                        "Election Started",
-                        JOptionPane.INFORMATION_MESSAGE);
-                adminOptionFrame.dispose(); // Close the current frame
-                showAdminVoterSelectionScreen(); // Show the voter selection screen
+                        + "<span style='color: #28A745;'>Election is starting...</span>"
+                        + "<br>Voters can now proceed to vote!</div>"
+                        + "</html>", "Election Started", JOptionPane.INFORMATION_MESSAGE);
+                adminOptionFrame.dispose();
+                showAdminVoterSelectionScreen();
             }
         });
 
-        gbc.gridy = 3; // Place button at the fourth row
+        // Layout constraints
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(15, 15, 15, 15);
+        gbc.gridx = 0;
+        gbc.anchor = GridBagConstraints.CENTER;
+
+        // Add components in the desired order
+        gbc.gridy = 0;
+        adminOptionFrame.add(imageLabel, gbc);
+        gbc.gridy = 1;
+        adminOptionFrame.add(promptLabel, gbc);
+        gbc.gridy = 2;
+        adminOptionFrame.add(promptOption, gbc);
+        gbc.gridy = 3;
+        adminOptionFrame.add(manageCandidatesButton, gbc);
+        gbc.gridy = 4;
+        adminOptionFrame.add(setVoterCountButton, gbc);
+        gbc.gridy = 5;
         adminOptionFrame.add(startElectionButton, gbc);
 
         // Center the frame on the screen and make it visible
         adminOptionFrame.setLocationRelativeTo(null);
         adminOptionFrame.setVisible(true);
+    }
+
+// Helper method to create a button with custom styling
+    private static JButton createButton(String text, String bgColorHex, Color textColor) {
+        JButton button = new JButton(text);
+        button.setBackground(Color.decode(bgColorHex));
+        button.setForeground(textColor);
+        button.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        button.setPreferredSize(new Dimension(300, 80));
+        button.setFocusPainted(false);
+        return button;
     }
 
     // method for showAdminCandidateScreen
@@ -822,6 +816,7 @@ public class ElectBudz {
                     if (currentVoter < totalVoters) {
                         showVotingScreen();
                     } else {
+                        JOptionPane.showMessageDialog(null, "Voting is done! Calculating results...", "Election Update", JOptionPane.INFORMATION_MESSAGE);
                         showResultsScreen();
                     }
                 }

@@ -1,19 +1,10 @@
-
 ElectBudz Fix/Suggestions:
 
 Frontend:
  - Logo at the right screen (Erich)
- - Put right alignment for Manage Candidates' (Position name)
- - Modify Alert Messages (Make it Consistent)
-     - Make the colored messages bigger
-
- - votingScreen (JM) should be 2 columns where it has:
-   - Visible Text (Palakihin)
-  
-   - Background color (like at the results screen)
 
  - Modify Election Results (SID)
- - Fix showAdminOptionsWithResults UI
+ - Fix   UI
    - Highlight the winners' (green) and losers' (red) progress bars, If tie (yellow):
       - Governor - 1
       - V. Governor - 1
@@ -22,13 +13,16 @@ Frontend:
       - V. Mayor - 1
       - City/Town Councilor - 10
  
-
 Backend:
- - If tie (yellow)
- - Alert message (Voting is done) with check
-
+  - 
 Notes:
   - Add Comments (For UI Design)
   - Redesign Logo
  
 - Suggest more changes.
+
+
+Jm did: 
+- Updated showVotingScreen
+- All of alert messages (double)
+
