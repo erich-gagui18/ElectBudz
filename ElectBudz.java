@@ -945,7 +945,7 @@ public class ElectBudz {
         }
     }
 
-    // Method Results Screen
+// Method Results Screen
     private static void showResultsScreen() {
         JFrame resultsFrame = new JFrame("ElectBudz - Election Results");
         resultsFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -1026,42 +1026,31 @@ public class ElectBudz {
                 progressBar.setValue(votes);
                 progressBar.setStringPainted(true);
 
-                // Set progress bar color logic (Winner, Tie, Loser)
-                Color winnerColor = new Color(60, 179, 113); // Green
-                Color tieColor = new Color(255, 223, 0);     // Yellow
-                Color loserColor = new Color(220, 20, 60);   // Crimson Red
+                // Set progress bar color based on rules
+                int rank = sortedCandidates.indexOf(entry) + 1; // Calculate rank (1-based index)
 
-                if (position.equals("Board Members")) {
-                    // Determine top 1 and top 2 votes
-                    int topVotes = sortedCandidates.get(0).getValue();
-                    int secondTopVotes = sortedCandidates.size() > 1 ? sortedCandidates.get(1).getValue() : -1;
-
-                    if (votes == topVotes || votes == secondTopVotes) {
-                        // Top 2 winners for Board Members
-                        progressBar.setForeground(winnerColor);
+                if (position.equals("Provincial Board Members")) {
+                    // Top 2 candidates are winners
+                    if (rank <= 2) {
+                        progressBar.setForeground(new Color(60, 179, 113)); // Green for top 2 (winners)
                     } else {
-                        // Losing candidates
-                        progressBar.setForeground(loserColor);
+                        progressBar.setForeground(new Color(220, 20, 60)); // Red for rank 3 and below (losers)
                     }
                 } else if (position.equals("City/Town Councilor")) {
-                    // Top 10 winners logic
-                    int candidateIndex = sortedCandidates.indexOf(entry);
-                    if (candidateIndex >= 0 && candidateIndex < 10) {
-                        // Top 10 winners for City/Town Councilor
-                        progressBar.setForeground(winnerColor);
+                    // Top 10 candidates are winners
+                    if (rank <= 10) {
+                        progressBar.setForeground(new Color(60, 179, 113)); // Green for top 10 (winners)
                     } else {
-                        // Losing candidates
-                        progressBar.setForeground(loserColor);
+                        progressBar.setForeground(new Color(220, 20, 60)); // Red for rank 11 and below (losers)
                     }
                 } else {
-                    // General case for other positions
-                    int topVotes = sortedCandidates.get(0).getValue();
-                    if (votes == topVotes) {
-                        // Top candidate (or tied for top)
-                        progressBar.setForeground(isTie ? tieColor : winnerColor);
+                    // General positions
+                    int highestVotes = sortedCandidates.get(0).getValue(); // Highest vote count
+                    if (votes == highestVotes) {
+                        // Top candidate or tied for top
+                        progressBar.setForeground(isTie ? new Color(255, 223, 0) : new Color(60, 179, 113)); // Yellow if tie, green otherwise
                     } else {
-                        // Losing candidates
-                        progressBar.setForeground(loserColor);
+                        progressBar.setForeground(new Color(220, 20, 60)); // Red for all other candidates
                     }
                 }
 
@@ -1108,8 +1097,8 @@ public class ElectBudz {
         resultsFrame.setLocationRelativeTo(null);
         resultsFrame.setVisible(true);
     }
-    // Method for displaying Admin options only if results are available
 
+    // Method for displaying Admin options only if results are available
     private static void showAdminOptionsWithResults() {
         if (positionVoteCount.isEmpty()) {
             JOptionPane.showMessageDialog(null, "No results available. Start an election first!");
