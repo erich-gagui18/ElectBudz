@@ -746,18 +746,15 @@ public class ElectBudz {
                 positionLabel.setForeground(new Color(70, 130, 180)); // SteelBlue color
                 positionPanel.add(positionLabel);
 
-                // Add indicator for the maximum selection
                 int maxVotes;
-                if (position.equals("Governor") || position.equals("Vice Governor")
-                        || position.equals("Mayor") || position.equals("Vice Mayor")) {
-                    maxVotes = 1;
-                } else if (position.equals("Provincial Board Member")) {
-                    maxVotes = 2;
-                } else if (position.equals("City/Town Councilor")) {
-                    maxVotes = 10;
-                } else {
-                    maxVotes = Integer.MAX_VALUE; // Default: No limit
-                }
+                    if (position.equals("Governor") || position.equals("Vice Governor")
+                            || position.equals("Mayor") || position.equals("Vice Mayor") || (position.equals("Provincial Board Member"))) {
+                        maxVotes = 1;
+                    } else if (position.equals("City/Town Councilor")) {
+                        maxVotes = 10;
+                    } else {
+                        maxVotes = Integer.MAX_VALUE; // Default: No limit
+                    }
 
                 JLabel indicatorLabel = new JLabel("Choose " + maxVotes);
                 indicatorLabel.setFont(new Font("Segoe UI", Font.PLAIN, 12)); // Smaller font for indicator
@@ -777,7 +774,7 @@ public class ElectBudz {
 
                             // Allow only one selection for specific positions
                             if (position.equals("Governor") || position.equals("Vice Governor")
-                                    || position.equals("Mayor") || position.equals("Vice Mayor")) {
+                                    || position.equals("Mayor") || position.equals("Vice Mayor")|| position.equals("Provincial Board Member")) {
                                 checkBox.addItemListener(e -> {
                                     if (e.getStateChange() == ItemEvent.SELECTED) {
                                         checkBoxes.forEach((otherCandidate, otherCheckBox) -> {
@@ -834,9 +831,7 @@ public class ElectBudz {
 
                     int maxVotes;
                     if (position.equals("Governor") || position.equals("Vice Governor")
-                            || position.equals("Mayor") || position.equals("Vice Mayor")) {
-                        maxVotes = 1;
-                    } else if (position.equals("Provincial Board Member")) {
+                            || position.equals("Mayor") || position.equals("Vice Mayor") || (position.equals("Provincial Board Member"))) {
                         maxVotes = 1;
                     } else if (position.equals("City/Town Councilor")) {
                         maxVotes = 10;
