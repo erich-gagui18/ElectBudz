@@ -1027,39 +1027,41 @@ public class ElectBudz {
                 progressBar.setStringPainted(true);
 
                 // Set progress bar color logic (Winner, Tie, Loser)
+                Color winnerColor = new Color(60, 179, 113); // Green
+                Color tieColor = new Color(255, 223, 0);     // Yellow
+                Color loserColor = new Color(220, 20, 60);   // Crimson Red
+
                 if (position.equals("Board Members")) {
-                    // Check if the candidate is among the top 2
+                    // Determine top 1 and top 2 votes
                     int topVotes = sortedCandidates.get(0).getValue();
                     int secondTopVotes = sortedCandidates.size() > 1 ? sortedCandidates.get(1).getValue() : -1;
 
                     if (votes == topVotes || votes == secondTopVotes) {
-                        // Top 1 or Top 2 winners for Board Members
-                        progressBar.setForeground(new Color(60, 179, 113)); // Green
+                        // Top 2 winners for Board Members
+                        progressBar.setForeground(winnerColor);
                     } else {
                         // Losing candidates
-                        progressBar.setForeground(new Color(220, 20, 60)); // Crimson red
+                        progressBar.setForeground(loserColor);
                     }
                 } else if (position.equals("City/Town Councilor")) {
                     // Top 10 winners logic
-                    int index = sortedCandidates.indexOf(entry);
-                    if (index >= 0 && index < 10) {
+                    int candidateIndex = sortedCandidates.indexOf(entry);
+                    if (candidateIndex >= 0 && candidateIndex < 10) {
                         // Top 10 winners for City/Town Councilor
-                        progressBar.setForeground(new Color(60, 179, 113)); // Green
+                        progressBar.setForeground(winnerColor);
                     } else {
                         // Losing candidates
-                        progressBar.setForeground(new Color(220, 20, 60)); // Crimson red
+                        progressBar.setForeground(loserColor);
                     }
                 } else {
                     // General case for other positions
                     int topVotes = sortedCandidates.get(0).getValue();
-                    boolean isTopCandidate = votes == topVotes;
-
-                    if (isTopCandidate) {
+                    if (votes == topVotes) {
                         // Top candidate (or tied for top)
-                        progressBar.setForeground(isTie ? new Color(255, 223, 0) : new Color(60, 179, 113)); // Yellow if tie, green otherwise
+                        progressBar.setForeground(isTie ? tieColor : winnerColor);
                     } else {
                         // Losing candidates
-                        progressBar.setForeground(new Color(220, 20, 60)); // Crimson red
+                        progressBar.setForeground(loserColor);
                     }
                 }
 
