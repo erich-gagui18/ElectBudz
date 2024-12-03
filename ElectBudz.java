@@ -729,12 +729,9 @@ public class ElectBudz {
 
             positionVoteCount.forEach((position, candidates) -> {
                 // Determine which column the position belongs to
-                JPanel targetColumn = switch (position) {
-                    case "Governor", "Vice Governor", "Provincial Board Member", "Mayor" ->
-                        leftColumnPanel;
-                    default ->
-                        rightColumnPanel;
-                };
+                JPanel targetColumn = (position.equals("Governor") || position.equals("Vice Governor")
+                        || position.equals("Provincial Board Member") || position.equals("Mayor"))
+                        ? leftColumnPanel : rightColumnPanel;
 
                 // Create a sub-panel for the position
                 JPanel positionPanel = new JPanel();
@@ -749,6 +746,24 @@ public class ElectBudz {
                 positionLabel.setForeground(new Color(70, 130, 180)); // SteelBlue color
                 positionPanel.add(positionLabel);
 
+                // Add indicator for the maximum selection
+                int maxVotes;
+                if (position.equals("Governor") || position.equals("Vice Governor")
+                        || position.equals("Mayor") || position.equals("Vice Mayor")) {
+                    maxVotes = 1;
+                } else if (position.equals("Provincial Board Member")) {
+                    maxVotes = 2;
+                } else if (position.equals("City/Town Councilor")) {
+                    maxVotes = 10;
+                } else {
+                    maxVotes = Integer.MAX_VALUE; // Default: No limit
+                }
+
+                JLabel indicatorLabel = new JLabel("Choose " + maxVotes);
+                indicatorLabel.setFont(new Font("Segoe UI", Font.PLAIN, 12)); // Smaller font for indicator
+                indicatorLabel.setForeground(new Color(100, 100, 100)); // Gray color for subtle text
+                positionPanel.add(indicatorLabel);
+
                 LinkedHashMap<String, JCheckBox> checkBoxes = new LinkedHashMap<>();
 
                 // Add candidates for this position
@@ -761,7 +776,8 @@ public class ElectBudz {
                             checkBox.setAlignmentX(Component.LEFT_ALIGNMENT); // Left-align checkboxes
 
                             // Allow only one selection for specific positions
-                            if (position.equals("Governor") || position.equals("Vice Governor") || position.equals("Mayor") || position.equals("Vice Mayor")) {
+                            if (position.equals("Governor") || position.equals("Vice Governor")
+                                    || position.equals("Mayor") || position.equals("Vice Mayor")) {
                                 checkBox.addItemListener(e -> {
                                     if (e.getStateChange() == ItemEvent.SELECTED) {
                                         checkBoxes.forEach((otherCandidate, otherCheckBox) -> {
@@ -816,16 +832,17 @@ public class ElectBudz {
                         }
                     });
 
-                    int maxVotes = switch (position) {
-                        case "Governor", "Vice Governor", "Mayor", "Vice Mayor" ->
-                            1;
-                        case "Provincial Board Member" ->
-                            2;
-                        case "City/Town Councilor" ->
-                            10;
-                        default ->
-                            Integer.MAX_VALUE;
-                    };
+                    int maxVotes;
+                    if (position.equals("Governor") || position.equals("Vice Governor")
+                            || position.equals("Mayor") || position.equals("Vice Mayor")) {
+                        maxVotes = 1;
+                    } else if (position.equals("Provincial Board Member")) {
+                        maxVotes = 1;
+                    } else if (position.equals("City/Town Councilor")) {
+                        maxVotes = 10;
+                    } else {
+                        maxVotes = Integer.MAX_VALUE; // Default: No limit
+                    }
 
                     if (selectedCandidates.size() > maxVotes) {
                         JOptionPane.showMessageDialog(
