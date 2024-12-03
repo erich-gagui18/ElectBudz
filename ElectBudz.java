@@ -7,6 +7,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class ElectBudz {
 
@@ -871,6 +874,7 @@ public class ElectBudz {
 
         // Calculate and display results for each position
         positionVoteCount.forEach((position, candidates) -> {
+
             // Position title
             JLabel positionLabel = new JLabel(position, SwingConstants.CENTER);
             positionLabel.setFont(new Font("Arial", Font.BOLD, 18));
@@ -882,41 +886,55 @@ public class ElectBudz {
             int totalVotesForPosition = candidates.values().stream().mapToInt(Integer::intValue).sum();
             int skippedVotes = totalVoters - totalVotesForPosition;
 
-            candidates.entrySet().stream()
-                    .sorted((e1, e2) -> e2.getValue().compareTo(e1.getValue())) // Sort by votes (descending)
-                    .forEach(entry -> {
-                        String candidate = entry.getKey();
-                        int votes = entry.getValue();
+            // Sort candidates by votes (descending)
+            List<Map.Entry<String, Integer>> sortedCandidates = candidates.entrySet().stream()
+                    .sorted((e1, e2) -> e2.getValue().compareTo(e1.getValue()))
+                    .collect(Collectors.toList());
 
-                        String percentage = totalVotesForPosition > 0
-                                ? String.format("%.2f%%", (votes * 100.0) / totalVoters)
-                                : "0.00%";
+            // Determine if there is a tie for the highest votes
+            boolean isTie = sortedCandidates.size() > 1
+                    && sortedCandidates.get(0).getValue().equals(sortedCandidates.get(1).getValue());
 
-                        // Candidate result panel
-                        JPanel candidatePanel = new JPanel();
-                        candidatePanel.setLayout(new BoxLayout(candidatePanel, BoxLayout.Y_AXIS));
-                        candidatePanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-                        candidatePanel.setBackground(new Color(240, 248, 255)); // Alice blue
+            // Display each candidate's results
+            sortedCandidates.forEach(entry -> {
+                String candidate = entry.getKey();
+                int votes = entry.getValue();
 
-                        JLabel candidateTitleLabel = new JLabel(candidate, SwingConstants.CENTER);
-                        candidateTitleLabel.setFont(new Font("Arial", Font.BOLD, 14));
-                        candidateTitleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+                String percentage = totalVotesForPosition > 0
+                        ? String.format("%.2f%%", (votes * 100.0) / totalVoters)
+                        : "0.00%";
 
-                        JLabel candidateResultLabel = new JLabel(votes + " votes (" + percentage + ")", SwingConstants.CENTER);
-                        candidateResultLabel.setFont(new Font("Arial", Font.PLAIN, 12));
-                        candidateResultLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+                // Candidate result panel
+                JPanel candidatePanel = new JPanel();
+                candidatePanel.setLayout(new BoxLayout(candidatePanel, BoxLayout.Y_AXIS));
+                candidatePanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+                candidatePanel.setBackground(new Color(240, 248, 255)); // Alice blue
 
-                        JProgressBar progressBar = new JProgressBar(0, totalVoters);
-                        progressBar.setValue(votes);
-                        progressBar.setStringPainted(true);
-                        progressBar.setForeground(new Color(60, 179, 113)); // Sea green
-                        progressBar.setAlignmentX(Component.CENTER_ALIGNMENT);
+                JLabel candidateTitleLabel = new JLabel(candidate, SwingConstants.CENTER);
+                candidateTitleLabel.setFont(new Font("Arial", Font.BOLD, 14));
+                candidateTitleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-                        candidatePanel.add(candidateTitleLabel);
-                        candidatePanel.add(candidateResultLabel);
-                        candidatePanel.add(progressBar);
-                        resultsPanel.add(candidatePanel);
-                    });
+                JLabel candidateResultLabel = new JLabel(votes + " votes (" + percentage + ")", SwingConstants.CENTER);
+                candidateResultLabel.setFont(new Font("Arial", Font.PLAIN, 12));
+                candidateResultLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+                JProgressBar progressBar = new JProgressBar(0, totalVoters);
+                progressBar.setValue(votes);
+                progressBar.setStringPainted(true);
+
+                // Set progress bar color to yellow if there's a tie; otherwise, sea green
+                if (isTie && votes == sortedCandidates.get(0).getValue()) {
+                    progressBar.setForeground(new Color(255, 223, 0)); // Yellow
+                } else {
+                    progressBar.setForeground(new Color(60, 179, 113)); // Sea green
+                }
+                progressBar.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+                candidatePanel.add(candidateTitleLabel);
+                candidatePanel.add(candidateResultLabel);
+                candidatePanel.add(progressBar);
+                resultsPanel.add(candidatePanel);
+            });
 
             // Add skipped votes (if any)
             if (skippedVotes > 0) {
