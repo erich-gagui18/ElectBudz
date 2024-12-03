@@ -271,7 +271,7 @@ public class ElectBudz {
         JLabel promptLabel = new JLabel("Admin Panel", SwingConstants.CENTER);
         promptLabel.setFont(new Font("Segoe UI", Font.BOLD, 18));
         promptLabel.setForeground(Color.BLACK);
-        
+
         // Title label
         JLabel promptOption = new JLabel("Choose an option:", SwingConstants.CENTER);
         promptOption.setFont(new Font("Segoe UI", Font.BOLD, 16));
@@ -287,11 +287,11 @@ public class ElectBudz {
         JButton setVoterCountButton = createButton("Set Number of Voters", "#FED141", Color.BLACK);
         setVoterCountButton.addActionListener(e -> {
             if (positionVoteCount.isEmpty()) {
-                JOptionPane.showMessageDialog(adminOptionFrame, 
+                JOptionPane.showMessageDialog(adminOptionFrame,
                         "<html><div style='text-align: center;'>"
-                                + "<span style='color: #BF0D3E;'>No candidates added!</span>"
-                                + "<br>Please add at least one candidate before setting the voter count.</div>"
-                                + "</html>", "Error", JOptionPane.ERROR_MESSAGE);
+                        + "<span style='color: #BF0D3E;'>No candidates added!</span>"
+                        + "<br>Please add at least one candidate before setting the voter count.</div>"
+                        + "</html>", "Error", JOptionPane.ERROR_MESSAGE);
             } else {
                 adminOptionFrame.dispose();
                 showAdminVoterCountScreen();
@@ -301,13 +301,13 @@ public class ElectBudz {
         JButton startElectionButton = createButton("Start Election!", "#BF0D3E", Color.WHITE);
         startElectionButton.addActionListener(e -> {
             if (totalVoters == 0 || positionVoteCount.isEmpty()) {
-                JOptionPane.showMessageDialog(adminOptionFrame, 
+                JOptionPane.showMessageDialog(adminOptionFrame,
                         "<html><div style='text-align: center;'>"
                         + "<span style='color: #BF0D3E;'>Election setup incomplete!</span>"
                         + "<br>Ensure candidates are added and voter count is set before starting the election.</div>"
                         + "</html>", "Error", JOptionPane.ERROR_MESSAGE);
             } else {
-                JOptionPane.showMessageDialog(adminOptionFrame, 
+                JOptionPane.showMessageDialog(adminOptionFrame,
                         "<html><div style='text-align: center;'>"
                         + "<span style='color: #28A745;'>Election is starting...</span>"
                         + "<br>Voters can now proceed to vote!</div>"
@@ -668,55 +668,79 @@ public class ElectBudz {
 
     // Method for Voting Screen
     private static void showVotingScreen() {
-
         if (currentVoter < totalVoters) {
             JFrame votingFrame = new JFrame("ElectBudz - Voting " + (currentVoter + 1));
             votingFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            votingFrame.setSize(1000, 700);
+            votingFrame.setSize(1000, 800);
 
             // Main panel to hold all components
             JPanel mainPanel = new JPanel();
             mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
-            mainPanel.setBackground(new Color(240, 240, 240)); // Light background for better contrast
-
-            // Set the application icon
-            String iconPath = "C:/Users/erich/OneDrive/Documents/NetBeansProjects/ElectBudz/src/main/java/com/mycompany/electbudz/ElectBudz Logo/Elect Budz Logo.png";
-            ImageIcon icon = new ImageIcon(iconPath);
-            votingFrame.setIconImage(icon.getImage());
+            mainPanel.setBackground(new Color(220, 240, 255)); // Light blue background
 
             // Title
-            JLabel promptLabel = new JLabel("Voter " + (currentVoter + 1) + ": Select your candidates", SwingConstants.CENTER);
-            promptLabel.setFont(new Font("Arial", Font.BOLD, 18));
-            promptLabel.setForeground(new Color(0, 102, 204)); // Blue color for the title
+            JLabel promptLabel = new JLabel("Voter " + (currentVoter + 1) + ": Select your candidates");
+            promptLabel.setFont(new Font("Segoe UI", Font.BOLD, 22));
+            promptLabel.setForeground(new Color(0, 102, 204)); // Blue color for title
             promptLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-            promptLabel.setBorder(BorderFactory.createEmptyBorder(20, 0, 20, 0)); // Padding
+            promptLabel.setBorder(BorderFactory.createEmptyBorder(20, 0, 20, 0));
             mainPanel.add(promptLabel);
 
-            // Store the selected candidates for each position
+            // Center panel to hold the two columns
+            JPanel centerPanel = new JPanel();
+            centerPanel.setLayout(new GridLayout(1, 2, 100, 0)); // space between two
+            centerPanel.setBackground(new Color(220, 240, 255));
+
+            // Left column panel (Governor, Vice Governor, Provincial Board Member, Mayor)
+            JPanel leftColumnPanel = new JPanel();
+            leftColumnPanel.setLayout(new BoxLayout(leftColumnPanel, BoxLayout.Y_AXIS));
+            leftColumnPanel.setBackground(new Color(220, 240, 255));
+
+            // Right column panel (Remaining positions)
+            JPanel rightColumnPanel = new JPanel();
+            rightColumnPanel.setLayout(new BoxLayout(rightColumnPanel, BoxLayout.Y_AXIS));
+            rightColumnPanel.setBackground(new Color(220, 240, 255));
+
+            // Store selected candidates for each position
             LinkedHashMap<String, LinkedHashMap<String, JCheckBox>> positionGroups = new LinkedHashMap<>();
 
             positionVoteCount.forEach((position, candidates) -> {
-                // Add a label for the position
-                JLabel positionLabel = new JLabel(position, SwingConstants.CENTER);
-                positionLabel.setFont(new Font("Arial", Font.BOLD, 14));
-                positionLabel.setForeground(new Color(70, 130, 180)); // SteelBlue for positions
-                positionLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-                positionLabel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
-                mainPanel.add(positionLabel);
+                // Determine which column the position belongs to
+                JPanel targetColumn = switch (position) {
+                    case "Governor", "Vice Governor", "Provincial Board Member", "Mayor" ->
+                        leftColumnPanel;
+                    default ->
+                        rightColumnPanel;
+                };
+
+                // Create a sub-panel for the position
+                JPanel positionPanel = new JPanel();
+                positionPanel.setLayout(new BoxLayout(positionPanel, BoxLayout.Y_AXIS));
+                positionPanel.setAlignmentX(Component.LEFT_ALIGNMENT); // Left-align text
+                positionPanel.setBackground(new Color(220, 240, 255));
+                positionPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0)); // Space around position
+
+                // Add position label
+                JLabel positionLabel = new JLabel(position);
+                positionLabel.setFont(new Font("Segoe UI", Font.BOLD, 16)); // Larger font for position
+                positionLabel.setForeground(new Color(70, 130, 180)); // SteelBlue color
+                positionPanel.add(positionLabel);
 
                 LinkedHashMap<String, JCheckBox> checkBoxes = new LinkedHashMap<>();
 
-                // Sort candidates by name in alphabetical order
+                // Add candidates for this position
                 candidates.keySet().stream()
-                        .sorted() // Sort candidate names alphabetically
+                        .sorted()
                         .forEach(candidate -> {
                             JCheckBox checkBox = new JCheckBox(candidate);
+                            checkBox.setFont(new Font("Segoe UI", Font.PLAIN, 14)); // Larger font for candidates
+                            checkBox.setBackground(new Color(220, 240, 255)); // Match panel background
+                            checkBox.setAlignmentX(Component.LEFT_ALIGNMENT); // Left-align checkboxes
 
-                            // Logic for allowing unchecking
-                            if (position.equals("Mayor") || position.equals("Vice Mayor") || position.equals("Governor") || position.equals("Vice Governor")) {
+                            // Allow only one selection for specific positions
+                            if (position.equals("Governor") || position.equals("Vice Governor") || position.equals("Mayor") || position.equals("Vice Mayor")) {
                                 checkBox.addItemListener(e -> {
                                     if (e.getStateChange() == ItemEvent.SELECTED) {
-                                        // Unselect all other checkboxes in this group
                                         checkBoxes.forEach((otherCandidate, otherCheckBox) -> {
                                             if (otherCheckBox != checkBox) {
                                                 otherCheckBox.setSelected(false);
@@ -727,18 +751,31 @@ public class ElectBudz {
                             }
 
                             checkBoxes.put(candidate, checkBox);
-                            mainPanel.add(checkBox);
+                            positionPanel.add(Box.createVerticalStrut(10)); // Add space between checkboxes
+                            positionPanel.add(checkBox);
                         });
 
                 positionGroups.put(position, checkBoxes);
+                targetColumn.add(positionPanel); // Add the position panel to the appropriate column
             });
 
+            centerPanel.add(leftColumnPanel);
+            centerPanel.add(rightColumnPanel);
+
+            // Wrapper panel to center the two-column layout
+            JPanel wrapperPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0)); // Center-align the columns
+            wrapperPanel.setBackground(new Color(220, 240, 255));
+            wrapperPanel.add(centerPanel);
+
+            mainPanel.add(wrapperPanel);
+
+            // Submit Button
             JButton submitButton = new JButton("Submit Votes");
-            submitButton.setFont(new Font("Arial", Font.BOLD, 16));
+            submitButton.setFont(new Font("Segoe UI", Font.BOLD, 18));
             submitButton.setForeground(Color.WHITE);
-            submitButton.setBackground(new Color(34, 139, 34)); // Green color for submit button
+            submitButton.setBackground(new Color(34, 139, 34)); // Green button
             submitButton.setFocusPainted(false);
-            submitButton.setPreferredSize(new Dimension(150, 40));
+            submitButton.setPreferredSize(new Dimension(200, 50));
             submitButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
             submitButton.addActionListener(e -> {
@@ -756,30 +793,23 @@ public class ElectBudz {
                         }
                     });
 
-                    int maxVotes;
-                    if (position.equals("Governor")) {
-                        maxVotes = 1;
-                    } else if (position.equals("Vice Governor")) {
-                        maxVotes = 1;
-                    } else if (position.equals("Provincial Board Member")) {
-                        maxVotes = 2;
-                    } else if (position.equals("Mayor")) {
-                        maxVotes = 1;
-                    } else if (position.equals("Vice Mayor")) {
-                        maxVotes = 1;
-                    } else if (position.equals("City/Town Councilor")) {
-                        maxVotes = 10;
-                    } else {
-                        maxVotes = Integer.MAX_VALUE; // Default: No limit
-                    }
+                    int maxVotes = switch (position) {
+                        case "Governor", "Vice Governor", "Mayor", "Vice Mayor" ->
+                            1;
+                        case "Provincial Board Member" ->
+                            2;
+                        case "City/Town Councilor" ->
+                            10;
+                        default ->
+                            Integer.MAX_VALUE;
+                    };
 
                     if (selectedCandidates.size() > maxVotes) {
                         JOptionPane.showMessageDialog(
                                 votingFrame,
-                                "<html><div style='text-align: center;'>"
-                                + "<span style='color: #BF0D3E; font-size: 14px;'>"
-                                + "You can select a maximum of " + maxVotes + " candidate(s)</span><br>"
-                                + "for the position of <b style='color: #0032A0;'>" + position + "</b>."
+                                "<html><div style='text-align: left;'>"
+                                + "<span style='color: #BF0D3E;'>You can select a maximum of " + maxVotes
+                                + " candidate(s) for the position of <b>" + position + "</b>.</span>"
                                 + "</div></html>",
                                 "Vote Limit Exceeded",
                                 JOptionPane.WARNING_MESSAGE
@@ -791,19 +821,16 @@ public class ElectBudz {
                 }
 
                 if (validVotes) {
-                    // Cast votes for selected candidates
                     votes.forEach((position, selectedCandidates) -> {
                         LinkedHashMap<String, Integer> candidates = positionVoteCount.get(position);
-                        for (String candidate : selectedCandidates) {
-                            candidates.put(candidate, candidates.get(candidate) + 1);
-                        }
+                        selectedCandidates.forEach(candidate -> candidates.put(candidate, candidates.get(candidate) + 1));
                     });
 
                     currentVoter++;
                     JOptionPane.showMessageDialog(
                             votingFrame,
-                            "<html><div style='text-align: center;'>"
-                            + "<span style='color: #28A745; font-size: 16px;'>Your votes have been submitted successfully!</span><br>"
+                            "<html><div style='text-align: left;'>"
+                            + "<span style='color: #28A745;'>Your votes have been submitted successfully!</span><br>"
                             + "Thank you for participating in the election."
                             + "</div></html>",
                             "Vote Submitted",
@@ -811,19 +838,19 @@ public class ElectBudz {
                     );
 
                     votingFrame.dispose();
-
-                    // Proceed to the next voter or show results
                     if (currentVoter < totalVoters) {
                         showVotingScreen();
                     } else {
-                        JOptionPane.showMessageDialog(null, "Voting is done! Calculating results...", "Election Update", JOptionPane.INFORMATION_MESSAGE);
                         showResultsScreen();
                     }
                 }
             });
+
+            // Add spacing and the button
+            mainPanel.add(Box.createVerticalStrut(20)); // Adjust this value to control the height
             mainPanel.add(submitButton);
 
-            // Add a scroll pane to the frame
+            // Scrollable frame
             JScrollPane scrollPane = new JScrollPane(mainPanel);
             scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
             scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
