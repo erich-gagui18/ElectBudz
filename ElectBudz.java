@@ -25,12 +25,12 @@ public class ElectBudz {
 
     // Method to initialize default candidates
     private static void initializeDefaultCandidates() {
-        positionVoteCount.put("Governor", createCandidateList("Recto, Rosa Vilma Tuazon S.", "Leviste, Jose Antonio S."));
-        positionVoteCount.put("Vice Governor", createCandidateList("Mandanas, Hermilando I.", "Manzano, Luis Philippe S."));
-        positionVoteCount.put("Provincial Board Member", createCandidateList("Balba, Rodolfo M.", "Corona, Alfredo C.", "Macalintal, Dennis C."));
-        positionVoteCount.put("Mayor", createCandidateList("Ilagan, Janet M.", "Collantes, Nelson P.", "Africa, Eric B."));
-        positionVoteCount.put("Vice Mayor", createCandidateList("Trinidad Jr., Herminigildo G.", "Lopez, Camille Angeline M.", "Ilagan, Jay M."));
-        positionVoteCount.put("City/Town Councilor", createCandidateList(
+        positionVoteCount.put("Governor", createCandidateList("Recto, Rosa Vilma Tuazon S.", "Leviste, Jose Antonio S.")); // 2 Candidates
+        positionVoteCount.put("Vice Governor", createCandidateList("Mandanas, Hermilando I.", "Manzano, Luis Philippe S.")); // 2 Candidates
+        positionVoteCount.put("Provincial Board Member", createCandidateList("Balba, Rodolfo M.", "Corona, Alfredo C.", "Macalintal, Dennis C.")); // 3 Candidates
+        positionVoteCount.put("Mayor", createCandidateList("Ilagan, Janet M.", "Collantes, Nelson P.", "Africa, Eric B.")); // 3 Candidates
+        positionVoteCount.put("Vice Mayor", createCandidateList("Trinidad Jr., Herminigildo G.", "Lopez, Camille Angeline M.", "Ilagan, Jay M.")); // 3 Candidates
+        positionVoteCount.put("City/Town Councilor", createCandidateList( // 22 Candidates
                 "Dimaano, Ferdinand L.", "Laqui, Karen Joy A.", "Malabag, Rowell B.",
                 "Del Mundo, Herwin D.", "De Ocampo, Lemuel V.", "Calinisan, Lourdes O.",
                 "Vergara, Pepito D.", "Caraan-Laqui, Merlyn L.", "Santos, Maria S.", "Reyes, Pedro R.",
