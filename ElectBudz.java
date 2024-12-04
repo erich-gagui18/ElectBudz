@@ -33,10 +33,10 @@ public class ElectBudz {
         positionVoteCount.put("City/Town Councilor", createCandidateList(
                 "Dimaano, Ferdinand L.", "Laqui, Karen Joy A.", "Malabag, Rowell B.",
                 "Del Mundo, Herwin D.", "De Ocampo, Lemuel V.", "Calinisan, Lourdes O.",
-                "Vergara, Pepito D.", "Caraan-Laqui, Merlyn L.","Santos, Maria S.", "Reyes, Pedro R.", 
-                "Lopez, Ana L.", "Garcia, Lito G.","Mendoza, Rico M.", "Perez, Carla P.", 
-                "Villanueva, Marco V.", "Gonzales, Sophia G.","Flores, Miguel F.", "Ramirez, Clarisse R.", 
-                "Cruz, Nestor C.", "Bautista, Arlene B.","Lim, Victor L.", "Torres, Paula T."));
+                "Vergara, Pepito D.", "Caraan-Laqui, Merlyn L.", "Santos, Maria S.", "Reyes, Pedro R.",
+                "Lopez, Ana L.", "Garcia, Lito G.", "Mendoza, Rico M.", "Perez, Carla P.",
+                "Villanueva, Marco V.", "Gonzales, Sophia G.", "Flores, Miguel F.", "Ramirez, Clarisse R.",
+                "Cruz, Nestor C.", "Bautista, Arlene B.", "Lim, Victor L.", "Torres, Paula T."));
     }
 
     // Utility method to create candidate lists with vote count initialized to 0
@@ -104,7 +104,7 @@ public class ElectBudz {
                 JOptionPane.showMessageDialog(selectionFrame,
                         //Alert design
                         "<html><div style='text-align: center;'>"
-                        + "<span style='color: #BF0D3E; font-size: 14px;'>Election setup incomplete!</span><br>"
+                        + "<span style='color: #BF0D3E; font-size: 16px;'>Election setup incomplete!</span><br>"
                         + "Please ask the admin to start the election."
                         + "</div></html>",
                         "Setup Incomplete",
@@ -314,8 +314,8 @@ public class ElectBudz {
                 JOptionPane.showMessageDialog(adminOptionFrame,
                         // Design alert message
                         "<html><div style='text-align: center;'>"
-                        + "<span style='color: #BF0D3E;'>Election setup incomplete!</span><br>"
-                        + "Ensure candidates are added and voter count is set before starting the election."
+                        + "<span style='color: #BF0D3E; font-size: 16px;'>Election setup incomplete!</span><br>"
+                        + "<span style='font-size: 14px;'>Ensure candidates are added and voter count is set before starting the election.</span>"
                         + "</div></html>",
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
@@ -903,7 +903,7 @@ public class ElectBudz {
                         JOptionPane.showMessageDialog(
                                 votingFrame,
                                 "<html><div style='text-align: left;'>"
-                                + "<span style='color: #BF0D3E;'>You can select a maximum of " + maxVotes
+                                + "<span style='color: #BF0D3E;font-size: 14px;'>You can select a maximum of " + maxVotes
                                 + " candidate(s) for the position of <b>" + position + "</b>.</span>"
                                 + "</div></html>",
                                 "Vote Limit Exceeded",
@@ -925,8 +925,9 @@ public class ElectBudz {
                     JOptionPane.showMessageDialog(
                             votingFrame,
                             "<html><div style='text-align: left;'>"
-                            + "<span style='color: #28A745;'>Your votes have been submitted successfully!</span><br>"
-                            + "Thank you for participating in the election."
+                            + "<span style='color: #28A745;font-size: 16px;'>Your votes have been submitted successfully!</span><br>"
+                            + "<style='text-align: center;'>"
+                            + "<span style='font-size: 14px;'>Thank you for participating in the election.</span>"
                             + "</div></html>",
                             "Vote Submitted",
                             JOptionPane.INFORMATION_MESSAGE
