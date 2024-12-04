@@ -1041,25 +1041,23 @@ public class ElectBudz {
 
                 // Set progress bar color based on rules
                 int rank = sortedCandidates.indexOf(entry) + 1; // Calculate rank (1-based index)
+                int highestVotes = sortedCandidates.get(0).getValue(); // Get highest votes for tie check
 
+                // Determine color based on position and rules
                 if (position.equals("Provincial Board Members")) {
-                    if (rank <= 2) {
-                        progressBar.setForeground(new Color(220, 20, 60)); // Red for losers
-                    } else {
-                        progressBar.setForeground(new Color(60, 179, 113)); // Green for winners
-                    }
+                    // Rank 1 or 2 are winners, others are losers
+                    progressBar.setForeground(rank <= 2 ? new Color(60, 179, 113) : new Color(220, 20, 60));
                 } else if (position.equals("City/Town Councilor")) {
-                    if (rank <= 10) {
-                        progressBar.setForeground(new Color(60, 179, 113)); // Green for winners
-                    } else {
-                        progressBar.setForeground(new Color(220, 20, 60)); // Red for losers
-                    }
+                    // Rank 1 to 10 are winners, others are losers
+                    progressBar.setForeground(rank <= 10 ? new Color(60, 179, 113) : new Color(220, 20, 60));
                 } else {
-                    int highestVotes = sortedCandidates.get(0).getValue();
+                    // For other positions, handle highest votes and ties
                     if (votes == highestVotes) {
-                        progressBar.setForeground(isTie ? new Color(255, 223, 0) : new Color(60, 179, 113)); // Yellow if tie, green otherwise
+                        // Yellow for ties, green otherwise
+                        progressBar.setForeground(isTie ? new Color(255, 223, 0) : new Color(60, 179, 113));
                     } else {
-                        progressBar.setForeground(new Color(220, 20, 60)); // Red for all other candidates
+                        // Red for all other candidates
+                        progressBar.setForeground(new Color(220, 20, 60));
                     }
                 }
 
