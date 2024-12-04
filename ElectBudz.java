@@ -31,9 +31,12 @@ public class ElectBudz {
         positionVoteCount.put("Mayor", createCandidateList("Ilagan, Janet M.", "Collantes, Nelson P.", "Africa, Eric B."));
         positionVoteCount.put("Vice Mayor", createCandidateList("Trinidad Jr., Herminigildo G.", "Lopez, Camille Angeline M.", "Ilagan, Jay M."));
         positionVoteCount.put("City/Town Councilor", createCandidateList(
-                "Alice Green", "Bob White", "Carol Black", "David Lee",
-                "Eve Harris", "Frank Adams", "Grace Clark", "Hank Turner",
-                "Ivy Wilson", "Jack Morgan", "Mendez, Burat"));
+                "Dimaano, Ferdinand L.", "Laqui, Karen Joy A.", "Malabag, Rowell B.",
+                "Del Mundo, Herwin D.", "De Ocampo, Lemuel V.", "Calinisan, Lourdes O.",
+                "Vergara, Pepito D.", "Caraan-Laqui, Merlyn L.","Santos, Maria S.", "Reyes, Pedro R.", 
+                "Lopez, Ana L.", "Garcia, Lito G.","Mendoza, Rico M.", "Perez, Carla P.", 
+                "Villanueva, Marco V.", "Gonzales, Sophia G.","Flores, Miguel F.", "Ramirez, Clarisse R.", 
+                "Cruz, Nestor C.", "Bautista, Arlene B.","Lim, Victor L.", "Torres, Paula T."));
     }
 
     // Utility method to create candidate lists with vote count initialized to 0
@@ -380,7 +383,17 @@ public class ElectBudz {
         // Input Panel: Add candidates
         JPanel inputPanel = new JPanel();
         inputPanel.setLayout(new BoxLayout(inputPanel, BoxLayout.Y_AXIS)); // Arrange components vertically
-        inputPanel.setBorder(BorderFactory.createEmptyBorder(150, 10, 150, 10)); // Add padding around the panel
+        inputPanel.setBorder(BorderFactory.createEmptyBorder(25, 10, 150, 10)); // Add padding around the panel
+
+        // Load the image and resize it
+        String imagePath = "C:/Users/erich/OneDrive/Documents/NetBeansProjects/ElectBudz/src/main/java/com/mycompany/electbudz/ElectBudz Logo/Elect Budz Logo v.1.png";
+        ImageIcon imageIcon = new ImageIcon(imagePath);
+        Image img = imageIcon.getImage();
+        Image resizedImage = img.getScaledInstance(200, 200, Image.SCALE_SMOOTH); // Resizes the App logo image
+        ImageIcon resizedIcon = new ImageIcon(resizedImage);
+        JLabel imageLabel = new JLabel(resizedIcon);
+        imageLabel.setAlignmentX(Component.CENTER_ALIGNMENT); // Center align in BoxLayout
+        inputPanel.add(imageLabel); // Add image label to the input panel
 
         // Label for the combo box
         JLabel positionPromptLabel = new JLabel("Select position for the candidate:", SwingConstants.CENTER);
@@ -945,7 +958,7 @@ public class ElectBudz {
         }
     }
 
-// Method Results Screen
+    // Method Results Screen
     private static void showResultsScreen() {
         JFrame resultsFrame = new JFrame("ElectBudz - Election Results");
         resultsFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -1030,24 +1043,20 @@ public class ElectBudz {
                 int rank = sortedCandidates.indexOf(entry) + 1; // Calculate rank (1-based index)
 
                 if (position.equals("Provincial Board Members")) {
-                    // Top 2 candidates are winners
                     if (rank <= 2) {
-                        progressBar.setForeground(new Color(60, 179, 113)); // Green for top 2 (winners)
+                        progressBar.setForeground(new Color(60, 179, 113)); // Green for winners
                     } else {
-                        progressBar.setForeground(new Color(220, 20, 60)); // Red for rank 3 and below (losers)
+                        progressBar.setForeground(new Color(220, 20, 60)); // Red for losers
                     }
                 } else if (position.equals("City/Town Councilor")) {
-                    // Top 10 candidates are winners
                     if (rank <= 10) {
-                        progressBar.setForeground(new Color(60, 179, 113)); // Green for top 10 (winners)
+                        progressBar.setForeground(new Color(60, 179, 113)); // Green for winners
                     } else {
-                        progressBar.setForeground(new Color(220, 20, 60)); // Red for rank 11 and below (losers)
+                        progressBar.setForeground(new Color(220, 20, 60)); // Red for losers
                     }
                 } else {
-                    // General positions
-                    int highestVotes = sortedCandidates.get(0).getValue(); // Highest vote count
+                    int highestVotes = sortedCandidates.get(0).getValue();
                     if (votes == highestVotes) {
-                        // Top candidate or tied for top
                         progressBar.setForeground(isTie ? new Color(255, 223, 0) : new Color(60, 179, 113)); // Yellow if tie, green otherwise
                     } else {
                         progressBar.setForeground(new Color(220, 20, 60)); // Red for all other candidates
@@ -1068,19 +1077,21 @@ public class ElectBudz {
                 skippedLabel.setFont(new Font("Arial", Font.ITALIC, 14));
                 skippedLabel.setForeground(Color.GRAY);
                 skippedLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+                resultsPanel.add(Box.createVerticalStrut(10)); // Add spacing
                 resultsPanel.add(skippedLabel);
             }
+
         });
 
         // Buttons with improved design
         JButton closeButton = new JButton("Close");
-        closeButton.setBackground(new Color(255, 69, 0)); // Red button
+        closeButton.setBackground(Color.decode("#BF0D3E")); // Red background
         closeButton.setForeground(Color.WHITE);
         closeButton.setFocusPainted(false);
         closeButton.addActionListener(e -> resultsFrame.dispose());
 
         JButton mainMenuButton = new JButton("Go to Main Menu");
-        mainMenuButton.setBackground(new Color(30, 144, 255)); // Dodger blue button
+        mainMenuButton.setBackground(Color.decode("#0032A0")); // Blue background
         mainMenuButton.setForeground(Color.WHITE);
         mainMenuButton.setFocusPainted(false);
         mainMenuButton.addActionListener(e -> {
