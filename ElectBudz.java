@@ -30,13 +30,12 @@ public class ElectBudz {
         positionVoteCount.put("Provincial Board Member", createCandidateList("Balba, Rodolfo M.", "Corona, Alfredo C.", "Macalintal, Dennis C.")); // 3 Candidates
         positionVoteCount.put("Mayor", createCandidateList("Ilagan, Janet M.", "Collantes, Nelson P.", "Africa, Eric B.")); // 3 Candidates
         positionVoteCount.put("Vice Mayor", createCandidateList("Trinidad Jr., Herminigildo G.", "Lopez, Camille Angeline M.", "Ilagan, Jay M.")); // 3 Candidates
-        positionVoteCount.put("City/Town Councilor", createCandidateList( // 22 Candidates
+        positionVoteCount.put("City/Town Councilor", createCandidateList( // 15 Candidates
                 "Dimaano, Ferdinand L.", "Laqui, Karen Joy A.", "Malabag, Rowell B.",
                 "Del Mundo, Herwin D.", "De Ocampo, Lemuel V.", "Calinisan, Lourdes O.",
                 "Vergara, Pepito D.", "Caraan-Laqui, Merlyn L.", "Santos, Maria S.", "Reyes, Pedro R.",
                 "Lopez, Ana L.", "Garcia, Lito G.", "Mendoza, Rico M.", "Perez, Carla P.",
-                "Villanueva, Marco V.", "Gonzales, Sophia G.", "Flores, Miguel F.", "Ramirez, Clarisse R.",
-                "Cruz, Nestor C.", "Bautista, Arlene B.", "Lim, Victor L.", "Torres, Paula T."));
+                "Villanueva, Marco V."));
     }
 
     // Utility method to create candidate lists with vote count initialized to 0
@@ -1045,9 +1044,9 @@ public class ElectBudz {
 
                 if (position.equals("Provincial Board Members")) {
                     if (rank <= 2) {
-                        progressBar.setForeground(new Color(60, 179, 113)); // Green for winners
-                    } else {
                         progressBar.setForeground(new Color(220, 20, 60)); // Red for losers
+                    } else {
+                        progressBar.setForeground(new Color(60, 179, 113)); // Green for winners
                     }
                 } else if (position.equals("City/Town Councilor")) {
                     if (rank <= 10) {
